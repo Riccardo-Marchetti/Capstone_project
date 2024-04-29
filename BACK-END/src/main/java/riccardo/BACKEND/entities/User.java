@@ -17,6 +17,7 @@ public class User {
     // ATTRIBUTI
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter (AccessLevel.NONE)
     private long id;
 
     private String name;
@@ -24,6 +25,7 @@ public class User {
     private String email;
     private String password;
     private String avatar;
+    @Enumerated (EnumType.STRING)
     private UserRole role;
 
     @OneToMany (mappedBy = "user")
@@ -31,4 +33,13 @@ public class User {
 
     @OneToMany (mappedBy = "user")
     private List<Comment> comment;
+
+    public User(String name, String username, String email, String password, String avatar) {
+        this.name = name;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.avatar = avatar;
+        this.role = UserRole.USER;
+    }
 }

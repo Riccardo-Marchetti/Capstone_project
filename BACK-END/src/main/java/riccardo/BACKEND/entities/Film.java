@@ -2,8 +2,9 @@ package riccardo.BACKEND.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import riccardo.BACKEND.enums.FilmType;
 
-import java.lang.reflect.Type;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -18,13 +19,14 @@ public class Film {
     // ATTRIBUTI
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @Setter (AccessLevel.NONE)
     private long id;
 
     private String title;
     private String regista;
 
     @Enumerated (EnumType.STRING)
-    private Type type;
+    private FilmType type;
 
     private int duration;
     private int rating;
@@ -37,4 +39,15 @@ public class Film {
 
     @OneToMany (mappedBy = "film")
     private List<Show> shows;
+
+    public Film(String title, String regista, FilmType type, int duration, int rating, String description, LocalDate exitDate, String trailer) {
+        this.title = title;
+        this.regista = regista;
+        this.type = type;
+        this.duration = duration;
+        this.rating = rating;
+        this.description = description;
+        this.exitDate = exitDate;
+        this.trailer = trailer;
+    }
 }

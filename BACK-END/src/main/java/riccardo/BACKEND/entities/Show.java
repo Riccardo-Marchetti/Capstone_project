@@ -18,6 +18,7 @@ public class Show {
     // ATTRIBUTI
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter (AccessLevel.NONE)
     private long id;
     private LocalDate showDate;
     private List<LocalTime> showTime;
@@ -32,4 +33,12 @@ public class Show {
 
     @OneToMany (mappedBy = "show")
     private List<Ticket> ticket;
+
+    public Show(LocalDate showDate, List<LocalTime> showTime, Film film, CinemaRoom cinemaRoom, List<Ticket> ticket) {
+        this.showDate = showDate;
+        this.showTime = showTime;
+        this.film = film;
+        this.cinemaRoom = cinemaRoom;
+        this.ticket = ticket;
+    }
 }

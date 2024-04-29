@@ -16,6 +16,7 @@ public class CinemaRoom {
     // ATTRIBUTI
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter (AccessLevel.NONE)
     private long number;
 
     @ManyToOne
@@ -24,4 +25,9 @@ public class CinemaRoom {
 
     @OneToMany (mappedBy = "cinemaRoom")
     private List<Seat> seat;
+
+    public CinemaRoom(Cinema cinema, List<Seat> seat) {
+        this.cinema = cinema;
+        this.seat = seat;
+    }
 }
