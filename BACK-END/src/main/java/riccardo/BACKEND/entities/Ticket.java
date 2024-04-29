@@ -1,12 +1,10 @@
 package riccardo.BACKEND.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Getter
@@ -23,5 +21,16 @@ public class Ticket {
     private String assignedSeats;
     private double price;
     private LocalDate bookingDate;
+
+    @ManyToOne
+    @JoinColumn (name = "user_id")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn (name = "show_id")
+    private Show show;
+
+    @OneToMany (mappedBy = "ticket")
+    private List<Seat> seat;
 
 }

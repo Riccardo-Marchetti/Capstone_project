@@ -1,9 +1,6 @@
 package riccardo.BACKEND.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -25,4 +22,14 @@ public class Show {
     private LocalDate showDate;
     private List<LocalTime> showTime;
 
+    @ManyToOne
+    @JoinColumn (name = "film_id")
+    private Film film;
+
+    @ManyToOne
+    @JoinColumn (name = "cinemaRoom_id")
+    private CinemaRoom cinemaRoom;
+
+    @OneToMany (mappedBy = "show")
+    private List<Ticket> ticket;
 }

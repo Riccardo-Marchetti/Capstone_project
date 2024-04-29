@@ -1,9 +1,6 @@
 package riccardo.BACKEND.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -21,4 +18,11 @@ public class Comment {
     private String description;
     private int rating;
 
+    @ManyToOne
+    @JoinColumn (name = "film_id")
+    private Film film;
+
+    @ManyToOne
+    @JoinColumn (name = "user_id")
+    private User user;
 }

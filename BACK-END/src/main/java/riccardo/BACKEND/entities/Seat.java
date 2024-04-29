@@ -23,5 +23,11 @@ public class Seat {
     private boolean booked;
     private LocalDate bookingDate;
 
+    @ManyToOne
+    @JoinColumn (name = "ticket_id")
+    private Ticket ticket;
 
+    @ManyToOne
+    @JoinColumn (name = "cinemaRoom_id")
+    private CinemaRoom cinemaRoom;
 }

@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.lang.reflect.Type;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Getter
@@ -31,4 +32,9 @@ public class Film {
     private LocalDate exitDate;
     private String trailer;
 
+    @OneToMany (mappedBy = "film")
+    private List<Comment> comment;
+
+    @OneToMany (mappedBy = "film")
+    private List<Show> shows;
 }

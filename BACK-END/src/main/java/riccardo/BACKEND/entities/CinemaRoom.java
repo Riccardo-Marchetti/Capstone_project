@@ -1,10 +1,9 @@
 package riccardo.BACKEND.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -19,4 +18,10 @@ public class CinemaRoom {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long number;
 
+    @ManyToOne
+    @JoinColumn (name = "cinema_id")
+    private Cinema cinema;
+
+    @OneToMany (mappedBy = "cinemaRoom")
+    private List<Seat> seat;
 }

@@ -1,11 +1,10 @@
 package riccardo.BACKEND.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 import riccardo.BACKEND.enums.UserRole;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -26,4 +25,10 @@ public class User {
     private String password;
     private String avatar;
     private UserRole role;
+
+    @OneToMany (mappedBy = "user")
+    private List<Ticket> ticket;
+
+    @OneToMany (mappedBy = "user")
+    private List<Comment> comment;
 }
