@@ -21,6 +21,7 @@ public class User {
     private long id;
 
     private String name;
+    private String surname;
     private String username;
     private String email;
     private String password;
@@ -34,12 +35,12 @@ public class User {
     @OneToMany (mappedBy = "user")
     private List<Comment> comment;
 
-    public User(String name, String username, String email, String password, String avatar) {
+    public User(String name, String username, String email, String password) {
         this.name = name;
         this.username = username;
         this.email = email;
         this.password = password;
-        this.avatar = avatar;
+        this.avatar = "https://ui-avatars.com/api/?name=" + this.name + "+" + this.surname;
         this.role = UserRole.USER;
     }
 }

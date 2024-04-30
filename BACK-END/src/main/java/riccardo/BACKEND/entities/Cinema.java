@@ -25,10 +25,10 @@ public class Cinema {
     @OneToMany (mappedBy = "cinema")
     private List<CinemaRoom> cinemaRoom;
 
-    public Cinema(String name, String city, String address, List<CinemaRoom> cinemaRoom) {
+    public Cinema(String name, String city, String address) {
         this.name = name;
         this.city = city;
         this.address = address;
-        this.cinemaRoom = cinemaRoom;
+
     }
 }
