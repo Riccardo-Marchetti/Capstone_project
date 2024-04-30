@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 public record FilmDTO(String title,
 
-                      String regista,
+                      String director,
 
                       FilmType type,
 

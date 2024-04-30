@@ -1,8 +1,5 @@
 package riccardo.BACKEND.payloads;
 
-import riccardo.BACKEND.entities.CinemaRoom;
-import riccardo.BACKEND.entities.Film;
-import riccardo.BACKEND.entities.Ticket;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -12,9 +9,9 @@ public record ShowDTO(LocalDate showDate,
 
                       List<LocalTime> showTime,
 
-                      Film idFilm,
+                      long idFilm,
 
-                      CinemaRoom idCinemaRoom,
+                      long idCinemaRoom,
 
-                      List<Ticket> idTicket) {
+                      List<Long> idTicket) {
 }

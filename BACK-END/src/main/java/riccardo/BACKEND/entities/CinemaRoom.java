@@ -19,6 +19,7 @@ public class CinemaRoom {
     @Setter (AccessLevel.NONE)
     private long number;
 
+    private int totalSeat;
     @ManyToOne
     @JoinColumn (name = "cinema_id")
     private Cinema cinema;
@@ -26,7 +27,13 @@ public class CinemaRoom {
     @OneToMany (mappedBy = "cinemaRoom")
     private List<Seat> seat;
 
-    public CinemaRoom(Cinema cinema, List<Seat> seat) {
+    public CinemaRoom(int totalSeat, Cinema cinema) {
+        this.totalSeat = totalSeat;
+        this.cinema = cinema;
+    }
+
+    public CinemaRoom(int totalSeat, Cinema cinema, List<Seat> seat) {
+        this.totalSeat = totalSeat;
         this.cinema = cinema;
         this.seat = seat;
     }

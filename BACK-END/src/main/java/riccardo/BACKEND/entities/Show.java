@@ -41,4 +41,10 @@ public class Show {
         this.cinemaRoom = cinemaRoom;
         this.ticket = ticket;
     }
+    public Show(LocalDate showDate, List<LocalTime> showTime, Film film, CinemaRoom cinemaRoom) {
+        this.showDate = showDate;
+        this.showTime = showTime;
+        this.film = film;
+        this.cinemaRoom = cinemaRoom;
+    }
 }

@@ -38,4 +38,10 @@ public class Seat {
         this.bookingDate = bookingDate;
         this.cinemaRoom = cinemaRoom;
     }
+
+    public Seat(SeatType type, boolean booked, LocalDate bookingDate) {
+        this.type = type;
+        this.booked = booked;
+        this.bookingDate = bookingDate;
+    }
 }

@@ -1,6 +1,11 @@
 package riccardo.BACKEND.payloads;
 
-import riccardo.BACKEND.entities.Cinema;
 
-public record CinemaRoomDTO(Cinema idCinema) {
+import java.util.List;
+
+public record CinemaRoomDTO(int totalSeat,
+
+                            long idCinema,
+
+                            List<Long> idSeat) {
 }
