@@ -1,6 +1,7 @@
 package riccardo.BACKEND.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import riccardo.BACKEND.entities.Film;
@@ -20,8 +21,8 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    public List<User> getAllUsers(){
-        return this.userService.getAllUsers();
+    public Page<User> getAllUsers(@RequestParam int page, @RequestParam int size, @RequestParam String sortBy){
+        return this.userService.getAllUsers(page, size, sortBy);
     }
 
     @GetMapping ("/{userId}")

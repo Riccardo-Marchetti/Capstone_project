@@ -1,6 +1,7 @@
 package riccardo.BACKEND.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import riccardo.BACKEND.entities.Film;
@@ -20,8 +21,8 @@ public class ShowController {
     private ShowService showService;
 
     @GetMapping
-    public List<Show> getAllShows(){
-        return this.showService.getAllShows();
+    public Page<Show> getAllShows(@RequestParam int page, @RequestParam int size, @RequestParam String sortBy){
+        return this.showService.getAllShows(page, size, sortBy);
     }
 
     @GetMapping ("/{showId}")

@@ -1,6 +1,10 @@
 package riccardo.BACKEND.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import riccardo.BACKEND.entities.Seat;
 import riccardo.BACKEND.entities.Ticket;
@@ -24,8 +28,10 @@ public class TicketService {
     @Autowired
     private ServiceLocator serviceLocator;
 
-    public List<Ticket> getAllTickets(){
-        return this.ticketDAO.findAll();
+    public Page<Ticket> getAllTickets(int page, int size, String sortBy){
+        if (size > 20) size = 20;
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        return this.ticketDAO.findAll(pageable);
     }
 
     public Ticket getTicketById (long id){

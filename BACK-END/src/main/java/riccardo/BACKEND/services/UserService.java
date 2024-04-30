@@ -1,6 +1,10 @@
 package riccardo.BACKEND.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import riccardo.BACKEND.entities.User;
 import riccardo.BACKEND.exceptions.NotFoundException;
@@ -15,8 +19,10 @@ public class UserService {
     @Autowired
     private UserDAO userDAO;
 
-    public List<User> getAllUsers(){
-        return this.userDAO.findAll();
+    public Page<User> getAllUsers(int page, int size, String sortBy){
+        if (size > 20) size = 20;
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        return this.userDAO.findAll(pageable);
     }
 
     public User getUserById (long id){

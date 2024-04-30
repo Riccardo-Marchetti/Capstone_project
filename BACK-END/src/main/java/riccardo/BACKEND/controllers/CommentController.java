@@ -1,6 +1,7 @@
 package riccardo.BACKEND.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import riccardo.BACKEND.entities.Cinema;
@@ -20,8 +21,8 @@ public class CommentController {
     private CommentService commentService;
 
     @GetMapping
-    public List<Comment> getAllComments(){
-        return commentService.getAllComments();
+    public Page<Comment> getAllComments(@RequestParam int page, @RequestParam int size, @RequestParam String sortBy){
+        return commentService.getAllComments(page, size, sortBy);
     }
 
     @GetMapping ("/{commentId}")

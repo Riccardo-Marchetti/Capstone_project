@@ -1,6 +1,7 @@
 package riccardo.BACKEND.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import riccardo.BACKEND.entities.Film;
@@ -20,8 +21,8 @@ public class SeatController {
     private SeatService seatService;
 
     @GetMapping
-    public List<Seat> getAllSeats(){
-        return this.seatService.getAllSeats();
+    public Page<Seat> getAllSeats(@RequestParam int page, @RequestParam int size, @RequestParam String sortBy){
+        return this.seatService.getAllSeats(page, size, sortBy);
     }
 
     @GetMapping ("/{seatId}")

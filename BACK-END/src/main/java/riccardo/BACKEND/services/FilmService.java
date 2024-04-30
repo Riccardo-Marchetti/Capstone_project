@@ -1,13 +1,16 @@
 package riccardo.BACKEND.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import riccardo.BACKEND.entities.Film;
 import riccardo.BACKEND.exceptions.NotFoundException;
 import riccardo.BACKEND.payloads.FilmDTO;
 import riccardo.BACKEND.repositories.FilmDAO;
 
-import java.util.List;
 
 @Service
 public class FilmService {
@@ -15,8 +18,10 @@ public class FilmService {
     @Autowired
     private FilmDAO filmDAO;
 
-    public List<Film> getAllFilms(){
-        return this.filmDAO.findAll();
+    public Page<Film> getAllFilms(int page, int size, String sortBy){
+        if (size > 20) size = 20;
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        return this.filmDAO.findAll(pageable);
     }
 
     public Film getFilmById (long id){

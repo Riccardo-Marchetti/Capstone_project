@@ -1,6 +1,7 @@
 package riccardo.BACKEND.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import riccardo.BACKEND.entities.Cinema;
@@ -20,8 +21,8 @@ public class CinemaRoomController {
     private CinemaRoomService cinemaRoomService;
 
     @GetMapping
-    public List<CinemaRoom> getAllCinemaRoom (){
-        return this.cinemaRoomService.getAllRoom();
+    public Page<CinemaRoom> getAllCinemaRoom (@RequestParam int page, @RequestParam int size, @RequestParam String sortBy){
+        return this.cinemaRoomService.getAllRoom(page, size, sortBy);
     }
 
     @GetMapping ("/{roomId}")

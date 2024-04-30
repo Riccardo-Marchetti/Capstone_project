@@ -1,6 +1,10 @@
 package riccardo.BACKEND.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import riccardo.BACKEND.entities.Seat;
 import riccardo.BACKEND.entities.Show;
@@ -25,8 +29,10 @@ public class ShowService {
     @Autowired
     private ServiceLocator serviceLocator;
 
-    public List<Show> getAllShows(){
-        return this.showDAO.findAll();
+    public Page<Show> getAllShows(int page, int size, String sortBy){
+        if (size > 20) size = 20;
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        return this.showDAO.findAll(pageable);
     }
 
     public Show getShowById (long id){
