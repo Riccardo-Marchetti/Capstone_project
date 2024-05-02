@@ -13,11 +13,11 @@ import org.springframework.web.multipart.MultipartFile;
 import riccardo.BACKEND.entities.User;
 import riccardo.BACKEND.exceptions.BadRequestException;
 import riccardo.BACKEND.exceptions.NotFoundException;
+import riccardo.BACKEND.mailgun.MailgunSender;
 import riccardo.BACKEND.payloads.UserDTO;
 import riccardo.BACKEND.repositories.UserDAO;
 
 import java.io.IOException;
-import java.util.List;
 
 @Service
 public class UserService {
@@ -30,6 +30,8 @@ public class UserService {
 
     @Autowired
     private PasswordEncoder bcrypt;
+    @Autowired
+    private MailgunSender mailgunSender;
 
     public Page<User> getAllUsers(int page, int size, String sortBy){
         if (size > 20) size = 20;
@@ -49,6 +51,7 @@ public class UserService {
         );
         User users = new User( payload.name(), payload.surname(),payload.username(),  payload.email(), bcrypt.encode(payload.password()) );
         users.setAvatar("https://ui-avatars.com/api/?name=" + payload.name() + "+" + payload.surname());
+        mailgunSender.sendRegistrationEmail(users);
         return this.userDAO.save(users);
     }
 
