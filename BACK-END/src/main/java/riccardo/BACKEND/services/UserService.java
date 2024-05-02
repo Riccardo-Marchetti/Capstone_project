@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import riccardo.BACKEND.entities.User;
@@ -27,6 +28,9 @@ public class UserService {
     @Autowired
     private Cloudinary cloudinary;
 
+    @Autowired
+    private PasswordEncoder bcrypt;
+
     public Page<User> getAllUsers(int page, int size, String sortBy){
         if (size > 20) size = 20;
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
@@ -43,7 +47,7 @@ public class UserService {
                     throw new BadRequestException("Email: " + payload.email() + " is already in use");
                 }
         );
-        User users = new User( payload.name(), payload.surname(),payload.username(),  payload.email(), payload.password());
+        User users = new User( payload.name(), payload.surname(),payload.username(),  payload.email(), bcrypt.encode(payload.password()) );
         users.setAvatar("https://ui-avatars.com/api/?name=" + payload.name() + "+" + payload.surname());
         return this.userDAO.save(users);
     }
@@ -54,7 +58,7 @@ public class UserService {
         user.setSurname(payload.surname());
         user.setUsername(payload.username());
         user.setEmail(payload.email());
-        user.setPassword(payload.password());
+        user.setPassword(bcrypt.encode(payload.password()));
         return this.userDAO.save(user);
     }
     public void deleteUser (long id){
