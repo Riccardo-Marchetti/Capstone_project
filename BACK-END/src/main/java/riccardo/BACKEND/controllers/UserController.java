@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import riccardo.BACKEND.entities.Film;
 import riccardo.BACKEND.entities.User;
 import riccardo.BACKEND.exceptions.BadRequestException;
@@ -14,6 +15,7 @@ import riccardo.BACKEND.payloads.UserDTO;
 import riccardo.BACKEND.services.FilmService;
 import riccardo.BACKEND.services.UserService;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -45,4 +47,14 @@ public class UserController {
         this.userService.deleteUser(userId);
     }
 
+    @PostMapping ("/upload/{userId}")
+    @ResponseStatus (HttpStatus.CREATED)
+    public User uploadImage(@RequestParam ("avatar")MultipartFile image, @PathVariable long userId) throws IOException {
+        return this.userService.uploadImage(image, userId);
+    }
+    @PostMapping ("/me/upload")
+    @ResponseStatus (HttpStatus.CREATED)
+    public User uploadAvatar(@RequestParam ("avatar")MultipartFile image, @PathVariable User currentUser) throws IOException {
+        return this.userService.uploadImage(image, currentUser.getId());
+    }
 }
