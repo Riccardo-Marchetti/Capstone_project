@@ -3,9 +3,12 @@ package riccardo.BACKEND.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import riccardo.BACKEND.entities.Cinema;
 import riccardo.BACKEND.entities.CinemaRoom;
+import riccardo.BACKEND.exceptions.BadRequestException;
 import riccardo.BACKEND.payloads.CinemaDTO;
 import riccardo.BACKEND.payloads.CinemaRoomDTO;
 import riccardo.BACKEND.services.CinemaRoomService;
@@ -21,7 +24,7 @@ public class CinemaRoomController {
     private CinemaRoomService cinemaRoomService;
 
     @GetMapping
-    public Page<CinemaRoom> getAllCinemaRoom (@RequestParam int page, @RequestParam int size, @RequestParam String sortBy){
+    public Page<CinemaRoom> getAllCinemaRoom (@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "20") int size, @RequestParam(defaultValue = "number") String sortBy){
         return this.cinemaRoomService.getAllRoom(page, size, sortBy);
     }
 
@@ -32,12 +35,14 @@ public class CinemaRoomController {
 
     @PostMapping
     @ResponseStatus (HttpStatus.CREATED)
-    public CinemaRoom saveCinemaRoom (@RequestBody CinemaRoomDTO payload){
+    public CinemaRoom saveCinemaRoom (@RequestBody @Validated CinemaRoomDTO payload, BindingResult validation){
+        if (validation.hasErrors()) throw new BadRequestException(validation.getAllErrors());
         return this.cinemaRoomService.saveCinemaRoom(payload);
     }
 
     @PutMapping ("/{roomId}")
-    public CinemaRoom updateCinemaRoom (@PathVariable long roomId, @RequestBody CinemaRoomDTO payload ){
+    public CinemaRoom updateCinemaRoom (@PathVariable long roomId, @RequestBody @Validated CinemaRoomDTO payload, BindingResult validation){
+        if (validation.hasErrors()) throw new BadRequestException(validation.getAllErrors());
         return this.cinemaRoomService.updateCinemaRoom(roomId, payload);
     }
 

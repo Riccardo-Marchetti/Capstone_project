@@ -28,7 +28,7 @@ public class Film {
     @Enumerated (EnumType.STRING)
     private FilmType type;
 
-    private int duration;
+    private String duration;
     private int rating;
     private String description;
     private LocalDate exitDate;
@@ -40,7 +40,7 @@ public class Film {
     @OneToMany (mappedBy = "film")
     private List<Show> shows;
 
-    public Film(String title, String director, FilmType type, int duration, int rating, String description, LocalDate exitDate, String trailer) {
+    public Film(String title, String director, FilmType type, String duration, int rating, String description, LocalDate exitDate, String trailer) {
         this.title = title;
         this.director = director;
         this.type = type;

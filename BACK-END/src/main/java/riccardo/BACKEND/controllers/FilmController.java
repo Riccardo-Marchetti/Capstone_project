@@ -3,9 +3,12 @@ package riccardo.BACKEND.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import riccardo.BACKEND.entities.Comment;
 import riccardo.BACKEND.entities.Film;
+import riccardo.BACKEND.exceptions.BadRequestException;
 import riccardo.BACKEND.payloads.CinemaDTO;
 import riccardo.BACKEND.payloads.FilmDTO;
 import riccardo.BACKEND.services.CommentService;
@@ -20,7 +23,7 @@ public class FilmController {
     private FilmService filmService;
 
     @GetMapping
-    public Page<Film> getAllFilms(@RequestParam int page, @RequestParam int size, @RequestParam String sortBy){
+    public Page<Film> getAllFilms(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "20") int size, @RequestParam(defaultValue = "exitDate") String sortBy){
        return this.filmService.getAllFilms(page, size, sortBy);
     }
 
@@ -31,12 +34,14 @@ public class FilmController {
 
     @PostMapping
     @ResponseStatus (HttpStatus.CREATED)
-    public Film saveFilm (@RequestBody FilmDTO payload){
+    public Film saveFilm (@RequestBody @Validated FilmDTO payload, BindingResult validation){
+        if (validation.hasErrors()) throw new BadRequestException(validation.getAllErrors());
         return this.filmService.saveFilm(payload);
     }
 
     @PutMapping ("/{filmId}")
-    public Film updateFilm (@PathVariable long filmId, @RequestBody FilmDTO payload ){
+    public Film updateFilm (@PathVariable long filmId, @RequestBody @Validated FilmDTO payload, BindingResult validation ){
+        if (validation.hasErrors()) throw new BadRequestException(validation.getAllErrors());
         return this.filmService.updateFilm(filmId, payload);
     }
 

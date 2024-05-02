@@ -3,9 +3,12 @@ package riccardo.BACKEND.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import riccardo.BACKEND.entities.Cinema;
 import riccardo.BACKEND.entities.Comment;
+import riccardo.BACKEND.exceptions.BadRequestException;
 import riccardo.BACKEND.payloads.CinemaDTO;
 import riccardo.BACKEND.payloads.CommentDTO;
 import riccardo.BACKEND.services.CinemaService;
@@ -21,7 +24,7 @@ public class CommentController {
     private CommentService commentService;
 
     @GetMapping
-    public Page<Comment> getAllComments(@RequestParam int page, @RequestParam int size, @RequestParam String sortBy){
+    public Page<Comment> getAllComments(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "20") int size, @RequestParam (defaultValue = "film") String sortBy){
         return commentService.getAllComments(page, size, sortBy);
     }
 
@@ -32,12 +35,14 @@ public class CommentController {
 
     @PostMapping
     @ResponseStatus (HttpStatus.CREATED)
-    public Comment saveComment (@RequestBody CommentDTO payload){
+    public Comment saveComment (@RequestBody @Validated CommentDTO payload, BindingResult validation){
+        if (validation.hasErrors()) throw new BadRequestException(validation.getAllErrors());
         return this.commentService.saveComment(payload);
     }
 
     @PutMapping ("/{commentId}")
-    public Comment updateComment (@PathVariable long commentId, @RequestBody CommentDTO payload ){
+    public Comment updateComment (@PathVariable long commentId, @RequestBody @Validated CommentDTO payload, BindingResult validation ){
+        if (validation.hasErrors()) throw new BadRequestException(validation.getAllErrors());
         return this.commentService.updateComment(commentId, payload);
     }
 

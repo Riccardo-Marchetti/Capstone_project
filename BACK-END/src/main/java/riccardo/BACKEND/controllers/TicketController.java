@@ -3,9 +3,12 @@ package riccardo.BACKEND.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import riccardo.BACKEND.entities.Film;
 import riccardo.BACKEND.entities.Ticket;
+import riccardo.BACKEND.exceptions.BadRequestException;
 import riccardo.BACKEND.payloads.CinemaDTO;
 import riccardo.BACKEND.payloads.TicketDTO;
 import riccardo.BACKEND.services.FilmService;
@@ -21,7 +24,7 @@ public class TicketController {
     private TicketService ticketService;
 
     @GetMapping
-    public Page<Ticket> getAllTickets(@RequestParam int page, @RequestParam int size, @RequestParam String sortBy){
+    public Page<Ticket> getAllTickets(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "20") int size, @RequestParam(defaultValue = "id") String sortBy){
         return ticketService.getAllTickets(page, size, sortBy);
     }
 
@@ -32,12 +35,14 @@ public class TicketController {
 
     @PostMapping
     @ResponseStatus (HttpStatus.CREATED)
-    public Ticket saveTicket (@RequestBody TicketDTO payload){
+    public Ticket saveTicket (@RequestBody @Validated TicketDTO payload, BindingResult validation){
+        if (validation.hasErrors()) throw new BadRequestException(validation.getAllErrors());
         return ticketService.saveTicket(payload);
     }
 
     @PutMapping ("/{ticketId}")
-    public Ticket updateTicket (@PathVariable long ticketId, @RequestBody TicketDTO payload ){
+    public Ticket updateTicket (@PathVariable long ticketId, @RequestBody @Validated TicketDTO payload, BindingResult validation ){
+        if (validation.hasErrors()) throw new BadRequestException(validation.getAllErrors());
         return ticketService.updateTicket(ticketId, payload);
     }
 
