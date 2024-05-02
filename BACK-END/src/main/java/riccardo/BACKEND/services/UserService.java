@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import riccardo.BACKEND.entities.User;
+import riccardo.BACKEND.exceptions.BadRequestException;
 import riccardo.BACKEND.exceptions.NotFoundException;
 import riccardo.BACKEND.payloads.UserDTO;
 import riccardo.BACKEND.repositories.UserDAO;
@@ -35,6 +36,16 @@ public class UserService {
     public User getUserById (long id){
         return this.userDAO.findById(id).orElseThrow(() -> new NotFoundException("User " + id + " has not been found"));
 
+    }
+    public User saveUser (UserDTO payload){
+        this.userDAO.findByEmail(payload.email()).ifPresent(
+                user -> {
+                    throw new BadRequestException("Email: " + payload.email() + " is already in use");
+                }
+        );
+        User users = new User( payload.name(), payload.surname(),payload.username(),  payload.email(), payload.password());
+        users.setAvatar("https://ui-avatars.com/api/?name=" + payload.name() + "+" + payload.surname());
+        return this.userDAO.save(users);
     }
 
     public User updateUser (long id, UserDTO payload){

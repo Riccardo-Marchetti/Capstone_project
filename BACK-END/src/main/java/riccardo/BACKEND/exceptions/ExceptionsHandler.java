@@ -34,5 +34,9 @@ public class ExceptionsHandler {
     public ErrorsDTO handleException (Exception ex){
         return new ErrorsDTO("Problema relativo al server, risolveremo al più presto possibile", LocalDateTime.now());
     }
-
+    @ExceptionHandler
+    @ResponseStatus (HttpStatus.UNAUTHORIZED)
+    public ErrorsDTO handleException (UnauthorizedException ex){
+        return new ErrorsDTO(ex.getMessage(), LocalDateTime.now());
+    }
 }
