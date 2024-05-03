@@ -2,6 +2,7 @@ package riccardo.BACKEND.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -23,7 +24,7 @@ public class SecFilterChainConfig {
         httpSecurity.csrf(http -> http.disable());
         // TOLGO LE SESSIONI
         httpSecurity.sessionManagement(http -> http.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-
+        httpSecurity.cors(Customizer.withDefaults());
         // CONSENTO A TUTTE LE RICHIESTE DI PASSARE ATTRAVERSO LA FILTER CHAIN, TUTTE LE RISORSE SONO ACCESSIBILI A TUTTI GLI UTENTI CON AUTENTICAZIONE O MENO
         httpSecurity.authorizeHttpRequests(http -> http.requestMatchers("/**").permitAll());
 
