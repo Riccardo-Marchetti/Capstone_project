@@ -1,5 +1,6 @@
 package riccardo.BACKEND.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
@@ -34,10 +35,10 @@ public class User implements UserDetails {
     private String avatar;
     @Enumerated (EnumType.STRING)
     private UserRole role;
-
+    @JsonIgnore
     @OneToMany (mappedBy = "user")
     private List<Ticket> ticket;
-
+    @JsonIgnore
     @OneToMany (mappedBy = "user")
     private List<Comment> comment;
 
@@ -51,6 +52,15 @@ public class User implements UserDetails {
         this.role = UserRole.USER;
     }
 
+    public User(String name, String surname, String username, String email, String password, UserRole role) {
+        this.name = name;
+        this.surname = surname;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.avatar = "https://ui-avatars.com/api/?name=" + this.name + "+" + this.surname;
+        this.role = role;
+    }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(this.role.name()));

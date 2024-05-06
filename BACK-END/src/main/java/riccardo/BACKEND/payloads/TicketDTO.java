@@ -9,8 +9,7 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
-public record TicketDTO(@NotEmpty(message = "Assigned seats is mandatory")
-                        String assignedSeats,
+public record TicketDTO(
                         @NotNull(message = "Price is mandatory")
                         @Min(0)
                         double price,

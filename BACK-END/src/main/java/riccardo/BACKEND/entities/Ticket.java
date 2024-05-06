@@ -20,7 +20,6 @@ public class Ticket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter (AccessLevel.NONE)
     private long id;
-    private String assignedSeats;
     private double price;
     private LocalDate bookingDate;
 
@@ -35,8 +34,7 @@ public class Ticket {
     @OneToMany (mappedBy = "ticket")
     private List<Seat> seat;
 
-    public Ticket(String assignedSeats, double price, User user, Show show, List<Seat> seat) {
-        this.assignedSeats = assignedSeats;
+    public Ticket( double price, User user, Show show, List<Seat> seat) {
         this.price = price;
         this.bookingDate = LocalDate.now();
         this.user = user;

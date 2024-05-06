@@ -40,13 +40,12 @@ public class TicketService {
     }
     public Ticket saveTicket (TicketDTO payload){
         ShowService showService = serviceLocator.getService(ShowService.class);
-        Ticket ticket = new Ticket(payload.assignedSeats(), payload.price(), userService.getUserById(payload.idUser()), showService.getShowById(payload.idShow()), seatService.getSeatsByIds(payload.idSeat()));
+        Ticket ticket = new Ticket( payload.price(), userService.getUserById(payload.idUser()), showService.getShowById(payload.idShow()), seatService.getSeatsByIds(payload.idSeat()));
         return this.ticketDAO.save(ticket);
     }
     public Ticket updateTicket (long id, TicketDTO payload){
         ShowService showService = serviceLocator.getService(ShowService.class);
         Ticket ticket = this.ticketDAO.findById(id).orElseThrow(() -> new NotFoundException(id));
-        ticket.setAssignedSeats(payload.assignedSeats());
         ticket.setPrice(payload.price());
         ticket.setBookingDate(payload.bookingDate());
         ticket.setUser(userService.getUserById(payload.idUser()));

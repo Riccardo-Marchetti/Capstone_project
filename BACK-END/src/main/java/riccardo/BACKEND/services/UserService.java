@@ -3,6 +3,7 @@ package riccardo.BACKEND.services;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -11,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import riccardo.BACKEND.entities.User;
+import riccardo.BACKEND.enums.UserRole;
 import riccardo.BACKEND.exceptions.BadRequestException;
 import riccardo.BACKEND.exceptions.NotFoundException;
 import riccardo.BACKEND.mailgun.MailgunSender;
@@ -29,6 +31,9 @@ public class UserService {
     private Cloudinary cloudinary;
 
     @Autowired
+    private PasswordEncoder encoder;
+
+    @Autowired
     private PasswordEncoder bcrypt;
     @Autowired
     private MailgunSender mailgunSender;
@@ -44,11 +49,12 @@ public class UserService {
 
     }
     public User saveUser (UserDTO payload){
-        this.userDAO.findByEmail(payload.email()).ifPresent(
-                user -> {
-                    throw new BadRequestException("Email: " + payload.email() + " is already in use");
-                }
-        );
+        if (this.userDAO.existsByUsernameAndEmail(payload.username(), payload.email()))
+            throw new BadRequestException("Email " + payload.email() + " and Username " + payload.username() + " are already taken");
+        if (this.userDAO.existsByEmail(payload.email()))
+            throw new BadRequestException("Email " + payload.email() + " is already taken");
+        if (this.userDAO.existsByUsername(payload.username()))
+            throw new BadRequestException("Username " + payload.username() + " is already taken");
         User users = new User( payload.name(), payload.surname(),payload.username(),  payload.email(), bcrypt.encode(payload.password()) );
         users.setAvatar("https://ui-avatars.com/api/?name=" + payload.name() + "+" + payload.surname());
         mailgunSender.sendRegistrationEmail(users);
@@ -57,12 +63,22 @@ public class UserService {
 
     public User updateUser (long id, UserDTO payload){
         User user = this.userDAO.findById(id).orElseThrow(() -> new NotFoundException(id));
-        user.setName(payload.name());
-        user.setSurname(payload.surname());
-        user.setUsername(payload.username());
-        user.setEmail(payload.email());
-        user.setPassword(bcrypt.encode(payload.password()));
-        return this.userDAO.save(user);
+        if (user.getEmail().equals(payload.email())) {
+            if (user.getUsername().equals(payload.username())) {
+                user.setName(payload.name());
+                user.setSurname(payload.surname());
+                user.setPassword(encoder.encode(payload.password()));
+                user.setAvatar("https://ui-avatars.com/api/?name=" + payload.name() + "+" + payload.surname());
+            } else if (!this.userDAO.existsByUsername(payload.username())) {
+                user.setUsername(payload.username());
+                user.setName(payload.name());
+                user.setSurname(payload.surname());
+                user.setPassword(encoder.encode(payload.password()));
+                user.setAvatar("https://ui-avatars.com/api/?name=" + payload.name() + "+" + payload.surname());
+            } else throw new BadRequestException("Username " + payload.username() + " is already taken");
+            this.userDAO.save(user);
+            return user;
+        } else throw new BadRequestException("You are not allowed to change the email without permission");
     }
     public void deleteUser (long id){
         User user = this.userDAO.findById(id).orElseThrow(() -> new NotFoundException(id));
@@ -70,6 +86,15 @@ public class UserService {
     }
     public User findByEmail(String email) {
         return this.userDAO.findByEmail(email).orElseThrow(() -> new NotFoundException("Email " + email + " has not been found"));
+    }
+
+    public User existsByUsername(String name, String surname, String username, String email, String password){
+        User user = this.userDAO.findByUsername(username);
+        if (user == null){
+            user = new User(name, surname, username, email, bcrypt.encode(password), UserRole.ADMIN);
+            this.userDAO.save(user);
+        }
+        return user;
     }
 
     public User uploadImage(MultipartFile image, long id) throws IOException {
