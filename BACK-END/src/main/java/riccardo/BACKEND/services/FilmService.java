@@ -7,9 +7,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import riccardo.BACKEND.entities.Film;
+import riccardo.BACKEND.enums.FilmType;
+import riccardo.BACKEND.enums.SeatType;
 import riccardo.BACKEND.exceptions.NotFoundException;
 import riccardo.BACKEND.payloads.FilmDTO;
 import riccardo.BACKEND.repositories.FilmDAO;
+
+import java.util.List;
 
 
 @Service
@@ -47,5 +51,9 @@ public class FilmService {
     public void deleteFilm (long id){
         Film film = this.filmDAO.findById(id).orElseThrow(() -> new NotFoundException(id));
         this.filmDAO.delete(film);
+    }
+
+    public List<Film> findFilmByType (FilmType type){
+        return this.filmDAO.findByType(type);
     }
 }
