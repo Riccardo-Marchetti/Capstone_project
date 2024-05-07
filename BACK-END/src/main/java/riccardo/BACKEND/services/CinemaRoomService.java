@@ -42,6 +42,11 @@ public class CinemaRoomService {
         CinemaRoom cinemaRoom = new CinemaRoom(payload.totalSeat(), cinemaService.getCinemaById(payload.idCinema()));
         return this.cinemaRoomDAO.save(cinemaRoom);
     }
+    public CinemaRoom saveCinemaRoom (CinemaRoom cinemaRoom){
+        CinemaService cinemaService = serviceLocator.getService(CinemaService.class);
+        CinemaRoom newCinemaRoom = new CinemaRoom(cinemaRoom.getTotalSeat(), cinemaService.getCinemaById(cinemaRoom.getCinema().getId()));
+        return this.cinemaRoomDAO.save(cinemaRoom);
+    }
     public CinemaRoom updateCinemaRoom (long id, CinemaRoomDTO payload){
         CinemaService cinemaService = serviceLocator.getService(CinemaService.class);
         CinemaRoom cinemaRoom = this.cinemaRoomDAO.findById(id).orElseThrow(() -> new NotFoundException(id));

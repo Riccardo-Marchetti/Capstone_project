@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import riccardo.BACKEND.entities.Cinema;
 import riccardo.BACKEND.entities.Seat;
 import riccardo.BACKEND.exceptions.NotFoundException;
 import riccardo.BACKEND.payloads.SeatDTO;
@@ -25,13 +26,19 @@ public class SeatService {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
         return this.seatDAO.findAll(pageable);
     }
-
+    public List<Seat> findAll() {
+        return this.seatDAO.findAll();
+    }
     public Seat getSeatById (long id){
         return this.seatDAO.findById(id).orElseThrow(() -> new NotFoundException(id));
 
     }
     public Seat saveSeat (SeatDTO payload){
         Seat seat = new Seat(payload.type(), payload.booked(), payload.bookingDate());
+        return this.seatDAO.save(seat);
+    }
+    public Seat saveSeat (Seat seat){
+        Seat newSeat = new Seat(seat.getType(),seat.isBooked(), seat.getBookingDate());
         return this.seatDAO.save(seat);
     }
     public Seat updateSeat (long id, SeatDTO payload){

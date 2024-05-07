@@ -3,7 +3,6 @@ package riccardo.BACKEND.payloads;
 
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
@@ -23,6 +22,5 @@ public record TicketDTO(
                         @Min(1)
                         long idShow,
                         @NotNull(message = "Id seat is mandatory")
-                        @Min(1)
                         List<Long> idSeat) {
 }

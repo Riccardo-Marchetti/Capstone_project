@@ -1,5 +1,6 @@
 package riccardo.BACKEND.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import riccardo.BACKEND.enums.FilmType;
@@ -35,9 +36,11 @@ public class Film {
     private String trailer;
 
     @OneToMany (mappedBy = "film")
+    @JsonIgnore
     private List<Comment> comment;
 
     @OneToMany (mappedBy = "film")
+    @JsonIgnore
     private List<Show> shows;
 
     public Film(String title, String director, FilmType type, String duration, int rating, String description, LocalDate exitDate, String trailer) {

@@ -27,13 +27,19 @@ public class CinemaService {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
         return this.cinemaDAO.findAll(pageable);
     }
-
+    public List<Cinema> findAll() {
+        return this.cinemaDAO.findAll();
+    }
     public Cinema getCinemaById (long id){
         return this.cinemaDAO.findById(id).orElseThrow(() -> new NotFoundException(id));
 
     }
     public Cinema saveCinema (CinemaDTO payload){
         Cinema cinema = new Cinema(payload.name(), payload.city(), payload.address());
+        return this.cinemaDAO.save(cinema);
+    }
+    public Cinema saveCinema (Cinema cinema){
+        Cinema newCinema = new Cinema(cinema.getName(), cinema.getCity(), cinema.getAddress());
         return this.cinemaDAO.save(cinema);
     }
     public Cinema updateCinema (long id, CinemaDTO payload){
@@ -47,5 +53,9 @@ public class CinemaService {
     public void deleteCinema (long id){
         Cinema cinema = this.cinemaDAO.findById(id).orElseThrow(() -> new NotFoundException(id));
         this.cinemaDAO.delete(cinema);
+    }
+
+    public List<Cinema> findByNameAndCity (String name, String city){
+       return this.cinemaDAO.findByNameAndCity(name, city);
     }
 }

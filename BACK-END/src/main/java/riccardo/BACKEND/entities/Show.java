@@ -1,5 +1,6 @@
 package riccardo.BACKEND.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,13 +26,16 @@ public class Show {
 
     @ManyToOne
     @JoinColumn (name = "film_id")
+    @JsonIgnore
     private Film film;
 
     @ManyToOne
     @JoinColumn (name = "cinemaRoom_id")
+    @JsonIgnore
     private CinemaRoom cinemaRoom;
 
     @OneToMany (mappedBy = "show")
+    @JsonIgnore
     private List<Ticket> ticket;
 
     public Show(LocalDate showDate, List<LocalTime> showTime, Film film, CinemaRoom cinemaRoom, List<Ticket> ticket) {
