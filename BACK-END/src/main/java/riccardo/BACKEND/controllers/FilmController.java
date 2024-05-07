@@ -8,6 +8,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import riccardo.BACKEND.entities.Comment;
 import riccardo.BACKEND.entities.Film;
+import riccardo.BACKEND.enums.FilmType;
 import riccardo.BACKEND.exceptions.BadRequestException;
 import riccardo.BACKEND.payloads.CinemaDTO;
 import riccardo.BACKEND.payloads.FilmDTO;
@@ -25,6 +26,10 @@ public class FilmController {
     @GetMapping
     public Page<Film> getAllFilms(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "20") int size, @RequestParam(defaultValue = "exitDate") String sortBy){
        return this.filmService.getAllFilms(page, size, sortBy);
+    }
+    @GetMapping ("/type")
+    public List<Film> getFilmsByType (@RequestParam FilmType type){
+        return this.filmService.findFilmByType(type);
     }
 
     @GetMapping ("/{filmId}")

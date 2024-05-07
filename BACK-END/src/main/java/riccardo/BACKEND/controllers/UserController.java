@@ -9,12 +9,15 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import riccardo.BACKEND.entities.Ticket;
 import riccardo.BACKEND.entities.User;
 import riccardo.BACKEND.exceptions.BadRequestException;
 import riccardo.BACKEND.payloads.UserDTO;
+import riccardo.BACKEND.services.TicketService;
 import riccardo.BACKEND.services.UserService;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -22,6 +25,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private TicketService ticketService;
 
     @GetMapping
     public Page<User> getAllUsers(@RequestParam (defaultValue = "0") int page, @RequestParam (defaultValue = "20") int size, @RequestParam (defaultValue = "username") String sortBy){
@@ -58,6 +64,11 @@ public class UserController {
     @GetMapping("/me")
     public User findMe(@AuthenticationPrincipal User currentUser) {
         return currentUser;
+    }
+
+    @GetMapping ("/me/tickets")
+    public List<Ticket> getUserTickets(@AuthenticationPrincipal User currentUser){
+        return this.ticketService.findTicketsByUser(currentUser);
     }
 
     @PutMapping("/me")
