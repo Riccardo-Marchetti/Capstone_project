@@ -58,7 +58,7 @@ public class UserController {
     }
     @PostMapping ("/me/upload")
     @ResponseStatus (HttpStatus.CREATED)
-    public User uploadAvatar(@RequestParam ("avatar")MultipartFile image, @PathVariable User currentUser) throws IOException {
+    public User uploadAvatar(@RequestParam ("avatar")MultipartFile image, @AuthenticationPrincipal User currentUser) throws IOException {
         return this.userService.uploadImage(image, currentUser.getId());
     }
     @GetMapping("/me")
