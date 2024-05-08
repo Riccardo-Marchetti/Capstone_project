@@ -8,8 +8,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import riccardo.BACKEND.entities.Seat;
 import riccardo.BACKEND.entities.Ticket;
+import riccardo.BACKEND.entities.User;
 import riccardo.BACKEND.exceptions.NotFoundException;
 import riccardo.BACKEND.payloads.TicketDTO;
+import riccardo.BACKEND.payloads.UserDTO;
 import riccardo.BACKEND.repositories.TicketDAO;
 
 import java.util.ArrayList;
@@ -64,5 +66,8 @@ public class TicketService {
             ticketsList.add(ticket);
         }
         return ticketsList;
+    }
+    public List<Ticket> findTicketsByUser (User user){
+        return this.ticketDAO.findByUser(user);
     }
 }
