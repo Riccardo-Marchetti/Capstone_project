@@ -36,7 +36,7 @@ const LoginPage = () => {
   };
 
   return (
-    <header className="c d-flex align-items-center justify-content-end ">
+    <header className="login-background d-flex align-items-center justify-content-end ">
       <Container className="login-container p-4 m-0 ">
         <Row className="d-flex flex-column ">
           <Col className="text-center">
