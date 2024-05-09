@@ -34,6 +34,7 @@ public class Film {
     private String description;
     private LocalDate exitDate;
     private String trailer;
+    private String cover;
 
     @OneToMany (mappedBy = "film")
     @JsonIgnore
@@ -43,7 +44,7 @@ public class Film {
     @JsonIgnore
     private List<Show> shows;
 
-    public Film(String title, String director, FilmType type, String duration, int rating, String description, LocalDate exitDate, String trailer) {
+    public Film(String title, String director, FilmType type, String duration, int rating, String description, LocalDate exitDate, String trailer, String cover) {
         this.title = title;
         this.director = director;
         this.type = type;
@@ -52,5 +53,6 @@ public class Film {
         this.description = description;
         this.exitDate = exitDate;
         this.trailer = trailer;
+        this.cover = cover;
     }
 }

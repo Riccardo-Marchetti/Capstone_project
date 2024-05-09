@@ -83,17 +83,17 @@ public class MyRunner implements CommandLineRunner {
         if (seatService.findAll().isEmpty()){
         List<Seat> seats = new ArrayList<>();
         for (int i = 0; i < 32; i++) {
-            Seat seat = new Seat(SeatType.CLASSIC, false, null, null);
+            Seat seat = new Seat(SeatType.CLASSIC);
             seat = seatService.saveSeat(seat); // Saving the seat
             seats.add(seat);
         }
         for (int i = 0; i < 16; i++) {
-            Seat seat = new Seat(SeatType.PREMIUM, false, null, null);
+            Seat seat = new Seat(SeatType.PREMIUM);
             seat = seatService.saveSeat(seat); // Saving the seat
             seats.add(seat);
         }
         for (int i = 0; i < 16; i++) {
-            Seat seat = new Seat(SeatType.CLASSIC, false, null, null);
+            Seat seat = new Seat(SeatType.CLASSIC);
             seat = seatService.saveSeat(seat); // Saving the seat
             seats.add(seat);
         }

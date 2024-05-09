@@ -34,18 +34,18 @@ public class SeatService {
 
     }
     public Seat saveSeat (SeatDTO payload){
-        Seat seat = new Seat(payload.type(), payload.booked(), payload.bookingDate());
+        Seat seat = new Seat(payload.type());
         return this.seatDAO.save(seat);
     }
     public Seat saveSeat (Seat seat){
-        Seat newSeat = new Seat(seat.getType(),seat.isBooked(), seat.getBookingDate());
+        Seat newSeat = new Seat(seat.getType());
         return this.seatDAO.save(seat);
     }
     public Seat updateSeat (long id, SeatDTO payload){
         Seat seat = this.seatDAO.findById(id).orElseThrow(() -> new NotFoundException(id));
         seat.setType(payload.type());
-        seat.setBooked(payload.booked());
-        seat.setBookingDate(payload.bookingDate());
+//        seat.setBooked(payload.booked());
+//        seat.setBookingDate(payload.bookingDate());
         return this.seatDAO.save(seat);
     }
     public void deleteSeat (long id){
