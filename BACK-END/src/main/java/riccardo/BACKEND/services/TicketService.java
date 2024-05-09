@@ -40,9 +40,12 @@ public class TicketService {
         return this.ticketDAO.findById(id).orElseThrow(() -> new NotFoundException(id));
 
     }
-    public Ticket saveTicket (TicketDTO payload){
+    public Ticket saveTicket (TicketDTO payload, List<Seat> seats){
         ShowService showService = serviceLocator.getService(ShowService.class);
-        Ticket ticket = new Ticket( payload.price(), userService.getUserById(payload.idUser()), showService.getShowById(payload.idShow()), seatService.getSeatsByIds(payload.idSeat()));
+        Ticket ticket = new Ticket( payload.price(),payload.selectedShowTime(), payload.assignedSeats(), userService.getUserById(payload.idUser()), showService.getShowById(payload.idShow()), seats);
+        for (Seat seat : seats){
+            seatService.saveSeat(seat);
+        }
         return this.ticketDAO.save(ticket);
     }
     public Ticket updateTicket (long id, TicketDTO payload){

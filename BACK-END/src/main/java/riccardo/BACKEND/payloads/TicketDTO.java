@@ -3,15 +3,19 @@ package riccardo.BACKEND.payloads;
 
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 import java.util.List;
 
-public record TicketDTO(
+public record TicketDTO(@NotEmpty(message = "Assigned seats is mandatory")
+                        String[] assignedSeats,
                         @NotNull(message = "Price is mandatory")
                         @Min(0)
                         double price,
+                        @NotEmpty(message = "Selected showtime is mandatory")
+                        String selectedShowTime,
                         @FutureOrPresent (message = "The booking date must be today or in the future.")
                         @NotNull(message = "Booking date is mandatory")
                         LocalDate bookingDate,

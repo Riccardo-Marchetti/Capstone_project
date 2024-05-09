@@ -26,12 +26,11 @@ public class Show {
 
     @ManyToOne
     @JoinColumn (name = "film_id")
-    @JsonIgnore
     private Film film;
 
     @ManyToOne
     @JoinColumn (name = "cinemaRoom_id")
-    @JsonIgnore
+
     private CinemaRoom cinemaRoom;
 
     @OneToMany (mappedBy = "show")

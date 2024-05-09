@@ -33,7 +33,7 @@ public class FilmService {
 
     }
     public Film saveFilm (FilmDTO payload){
-        Film film = new Film(payload.title(), payload.director(), payload.type(), payload.duration(), payload.rating(), payload.description(), payload.exitDate(), payload.trailer());
+        Film film = new Film(payload.title(), payload.director(), payload.type(), payload.duration(), payload.rating(), payload.description(), payload.exitDate(), payload.trailer(), payload.cover());
         return this.filmDAO.save(film);
     }
     public Film updateFilm (long id, FilmDTO payload){

@@ -1,5 +1,6 @@
 package riccardo.BACKEND.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,6 +24,7 @@ public class Cinema {
     private String address;
 
     @OneToMany (mappedBy = "cinema")
+    @JsonIgnore
     private List<CinemaRoom> cinemaRoom;
 
     public Cinema(String name, String city, String address) {

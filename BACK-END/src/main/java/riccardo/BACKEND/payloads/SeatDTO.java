@@ -7,11 +7,11 @@ import riccardo.BACKEND.enums.SeatType;
 import java.time.LocalDate;
 
 public record SeatDTO(@NotNull(message = "Type is mandatory")
-                      SeatType type,
-                      @NotNull(message = "Booked is mandatory")
-                      boolean booked,
-                      @FutureOrPresent(message = "The booking date must be today or in the future.")
-                      @NotNull(message = "Booking date is mandatory")
-                      LocalDate bookingDate
+                      SeatType type
+//                      @NotNull(message = "Booked is mandatory")
+//                      boolean booked,
+//                      @FutureOrPresent(message = "The booking date must be today or in the future.")
+//                      @NotNull(message = "Booking date is mandatory")
+//                      LocalDate bookingDate
                       ) {
 }

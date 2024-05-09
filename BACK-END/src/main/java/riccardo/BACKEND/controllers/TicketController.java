@@ -8,12 +8,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import riccardo.BACKEND.entities.Film;
+import riccardo.BACKEND.entities.Seat;
 import riccardo.BACKEND.entities.Ticket;
 import riccardo.BACKEND.entities.User;
 import riccardo.BACKEND.exceptions.BadRequestException;
 import riccardo.BACKEND.payloads.CinemaDTO;
 import riccardo.BACKEND.payloads.TicketDTO;
 import riccardo.BACKEND.services.FilmService;
+import riccardo.BACKEND.services.SeatService;
 import riccardo.BACKEND.services.TicketService;
 
 import java.util.List;
@@ -24,6 +26,8 @@ public class TicketController {
 
     @Autowired
     private TicketService ticketService;
+    @Autowired
+    private SeatService seatService;
 
     @GetMapping
     public Page<Ticket> getAllTickets(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "20") int size, @RequestParam(defaultValue = "id") String sortBy){
@@ -39,7 +43,8 @@ public class TicketController {
     @ResponseStatus (HttpStatus.CREATED)
     public Ticket saveTicket (@RequestBody @Validated TicketDTO payload, BindingResult validation){
         if (validation.hasErrors()) throw new BadRequestException(validation.getAllErrors());
-        return ticketService.saveTicket(payload);
+        List<Seat> seats = seatService.getSeatsByIds(payload.idSeat());
+        return ticketService.saveTicket(payload, seats);
     }
 
     @PutMapping ("/{ticketId}")

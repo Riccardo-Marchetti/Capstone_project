@@ -1,10 +1,12 @@
 package riccardo.BACKEND.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import riccardo.BACKEND.enums.SeatType;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Getter
@@ -21,27 +23,25 @@ public class Seat {
     private long id;
     @Enumerated (EnumType.STRING)
     private SeatType type;
-    private boolean booked;
-    private LocalDate bookingDate;
 
-    @ManyToOne
-    @JoinColumn (name = "ticket_id")
-    private Ticket ticket;
+//    @ManyToOne
+//    @JoinColumn (name = "ticket_id")
+//    private Ticket ticket;
+
+    @ManyToMany(mappedBy = "seat")
+    @JsonIgnore
+    private List<Ticket> tickets;
 
     @ManyToOne
     @JoinColumn (name = "cinemaRoom_id")
     private CinemaRoom cinemaRoom;
 
-    public Seat(SeatType type, boolean booked, LocalDate bookingDate, CinemaRoom cinemaRoom) {
+    public Seat(SeatType type, CinemaRoom cinemaRoom) {
         this.type = type;
-        this.booked = booked;
-        this.bookingDate = bookingDate;
         this.cinemaRoom = cinemaRoom;
     }
 
-    public Seat(SeatType type, boolean booked, LocalDate bookingDate) {
+    public Seat(SeatType type) {
         this.type = type;
-        this.booked = booked;
-        this.bookingDate = bookingDate;
     }
 }
