@@ -7,6 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import riccardo.BACKEND.entities.Comment;
+import riccardo.BACKEND.entities.Film;
+import riccardo.BACKEND.entities.User;
 import riccardo.BACKEND.exceptions.NotFoundException;
 import riccardo.BACKEND.payloads.CommentDTO;
 import riccardo.BACKEND.repositories.CommentDAO;
@@ -37,6 +39,29 @@ public class CommentService {
         Comment comment = new Comment(payload.description(), payload.rating(), filmService.getFilmById(payload.idFilm()), userService.getUserById(payload.idUser()));
         return this.commentDAO.save(comment);
     }
+
+    public Comment postComment (CommentDTO payload, User currentUser, long selectedFilm){
+        Comment comment = new Comment(payload.description(), payload.rating(), filmService.getFilmById(selectedFilm), currentUser);
+        Comment savedComment = this.commentDAO.save(comment);
+
+        // Find all comments for that movie
+        List<Comment> comments = this.commentDAO.findByFilm(savedComment.getFilm());
+
+        // Calculate the average of the ratings
+        double totalRating = 0;
+        for (Comment c : comments) {
+            totalRating += c.getRating();
+        }
+        double averageRating = totalRating / comments.size();
+
+        //Update movie rating
+        Film film = savedComment.getFilm();
+        film.setRating(averageRating);
+        filmService.saveFilm(film);
+
+        return savedComment;
+    }
+
     public Comment updateComment (long id, CommentDTO payload){
         Comment comment = this.commentDAO.findById(id).orElseThrow(() -> new NotFoundException(id));
         comment.setDescription(payload.description());
@@ -48,5 +73,14 @@ public class CommentService {
     public void deleteComment (long id){
         Comment comment = this.commentDAO.findById(id).orElseThrow(() -> new NotFoundException(id));
         this.commentDAO.delete(comment);
+    }
+
+    public Page<Comment> getCommentsByFilm (long id, int page, int size) {
+        if (size > 20) size = 20;
+        Pageable pageable = PageRequest.of(page, size, Sort.by("rating").descending());
+        Film film = this.filmService.getFilmById(id);
+        this.commentDAO.findAll(pageable);
+        return this.commentDAO.findByFilm(film, pageable);
+
     }
 }

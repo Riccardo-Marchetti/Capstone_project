@@ -4,19 +4,15 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
-import riccardo.BACKEND.entities.Cinema;
-import riccardo.BACKEND.entities.CinemaRoom;
-import riccardo.BACKEND.entities.Seat;
-import riccardo.BACKEND.entities.User;
+import riccardo.BACKEND.entities.*;
+import riccardo.BACKEND.enums.FilmType;
 import riccardo.BACKEND.enums.SeatType;
 import riccardo.BACKEND.payloads.CinemaDTO;
 import riccardo.BACKEND.payloads.CinemaRoomDTO;
 import riccardo.BACKEND.payloads.SeatDTO;
-import riccardo.BACKEND.services.CinemaRoomService;
-import riccardo.BACKEND.services.CinemaService;
-import riccardo.BACKEND.services.SeatService;
-import riccardo.BACKEND.services.UserService;
+import riccardo.BACKEND.services.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -47,6 +43,8 @@ public class MyRunner implements CommandLineRunner {
     private SeatService seatService;
 
     @Autowired
+    private FilmService filmService;
+    @Autowired
     private CinemaRoomService cinemaRoomService;
 
     @Override
@@ -54,18 +52,28 @@ public class MyRunner implements CommandLineRunner {
     public void run(String... args) throws Exception {
         User user = this.userService.existsByUsername(name, surname, username, email, password);
 
+//      Creation shows
+//      Recover the films and cinema rooms
+
+//        Page<Film> films = filmService.getAllFilms(20, 20 , "type");
+//        Page<CinemaRoom> cinemaRoomsList = cinemaRoomService.getAllRoom(20, 20 , "type");
+//
+//        Show show = new Show();
+
+
+
 //     Creation of cinema
-        if (cinemaService.findByNameAndCity("Smile Cinema", "Bergamo").isEmpty()){
-        Cinema cinema1 = new Cinema("Smile Cinema", "Bergamo", "Via Arena");
+        if (cinemaService.findByNameAndCity("Dream Cinema", "Bergamo").isEmpty()){
+        Cinema cinema1 = new Cinema("Dream Cinema", "Bergamo", "Via Arena");
         cinema1 = cinemaService.saveCinema(cinema1);
         }
-        if (cinemaService.findByNameAndCity("Smile Cinema", "Milano").isEmpty()){
-        Cinema cinema2 = new Cinema("Smile Cinema", "Milano", "Via Manzoni");
+        if (cinemaService.findByNameAndCity("Dream Cinema", "Milano").isEmpty()){
+        Cinema cinema2 = new Cinema("Dream Cinema", "Milano", "Via Manzoni");
         cinema2 = cinemaService.saveCinema(cinema2);
 
         }
-        if (cinemaService.findByNameAndCity("Smile Cinema", "Torino").isEmpty()){
-        Cinema cinema3 = new Cinema("Smile Cinema", "Torino", "Via San Donato");
+        if (cinemaService.findByNameAndCity("Dream Cinema", "Torino").isEmpty()){
+        Cinema cinema3 = new Cinema("Dream Cinema", "Torino", "Via San Donato");
         cinema3 = cinemaService.saveCinema(cinema3);
         }
 

@@ -36,6 +36,10 @@ public class FilmService {
         Film film = new Film(payload.title(), payload.director(), payload.type(), payload.duration(), payload.rating(), payload.description(), payload.exitDate(), payload.trailer(), payload.cover());
         return this.filmDAO.save(film);
     }
+    public Film saveFilm (Film payload){
+        Film film = new Film(payload.getTitle(), payload.getDirector(), payload.getType(), payload.getDuration(), payload.getRating(), payload.getDescription(), payload.getExitDate(), payload.getTrailer(), payload.getCover());
+        return this.filmDAO.save(film);
+    }
     public Film updateFilm (long id, FilmDTO payload){
         Film film = this.filmDAO.findById(id).orElseThrow(() -> new NotFoundException(id));
         film.setTitle(payload.title());

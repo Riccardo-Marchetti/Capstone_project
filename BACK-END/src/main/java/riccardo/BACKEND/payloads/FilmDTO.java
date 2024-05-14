@@ -14,9 +14,10 @@ public record FilmDTO(@NotEmpty(message = "Title is mandatory")
                       FilmType type,
                       @NotNull(message = "Duration is mandatory")
                       String duration,
-                      @NotNull(message = "Id rating is mandatory")
-                      @Min(1)
-                      int rating,
+                      @NotNull(message = "Rating is mandatory")
+                      @Min(0)
+                      @Max(5)
+                      double rating,
                       @NotEmpty(message = "Description is mandatory")
                       String description,
 

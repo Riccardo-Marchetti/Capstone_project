@@ -20,7 +20,7 @@ public class Comment {
     @Setter (AccessLevel.NONE)
     private long id;
     private String description;
-    private int rating;
+    private double rating;
     private LocalDate commentDay;
     private LocalDateTime commentTime;
     @ManyToOne
@@ -31,7 +31,7 @@ public class Comment {
     @JoinColumn (name = "user_id")
     private User user;
 
-    public Comment(String description, int rating,  Film film, User user) {
+    public Comment(String description, double rating,  Film film, User user) {
         this.description = description;
         this.rating = rating;
         this.commentDay = LocalDate.now();

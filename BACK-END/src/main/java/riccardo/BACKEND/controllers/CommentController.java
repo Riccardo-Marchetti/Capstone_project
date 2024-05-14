@@ -3,11 +3,14 @@ package riccardo.BACKEND.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import riccardo.BACKEND.entities.Cinema;
 import riccardo.BACKEND.entities.Comment;
+import riccardo.BACKEND.entities.Film;
+import riccardo.BACKEND.entities.User;
 import riccardo.BACKEND.exceptions.BadRequestException;
 import riccardo.BACKEND.payloads.CinemaDTO;
 import riccardo.BACKEND.payloads.CommentDTO;
@@ -24,7 +27,7 @@ public class CommentController {
     private CommentService commentService;
 
     @GetMapping
-    public Page<Comment> getAllComments(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "20") int size, @RequestParam (defaultValue = "film") String sortBy){
+    public Page<Comment> getAllComments(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "20") int size, @RequestParam (defaultValue = "rating") String sortBy){
         return commentService.getAllComments(page, size, sortBy);
     }
 
@@ -33,11 +36,23 @@ public class CommentController {
         return this.commentService.getCommentById(commentId);
     }
 
+    @GetMapping ("/comments/{filmId}")
+    public Page<Comment> getCommentsByFilm(@PathVariable long filmId, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "20") int size){
+        return this.commentService.getCommentsByFilm(filmId, page, size);
+    }
+
     @PostMapping
     @ResponseStatus (HttpStatus.CREATED)
     public Comment saveComment (@RequestBody @Validated CommentDTO payload, BindingResult validation){
         if (validation.hasErrors()) throw new BadRequestException(validation.getAllErrors());
         return this.commentService.saveComment(payload);
+    }
+
+    @PostMapping ("/me/{filmId}")
+    @ResponseStatus (HttpStatus.CREATED)
+    public Comment postComment (@RequestBody @Validated CommentDTO payload, @AuthenticationPrincipal User currentUser,@PathVariable long filmId, BindingResult validation){
+        if (validation.hasErrors()) throw new BadRequestException(validation.getAllErrors());
+        return this.commentService.postComment(payload, currentUser, filmId);
     }
 
     @PutMapping ("/{commentId}")

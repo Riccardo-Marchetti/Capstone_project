@@ -30,7 +30,7 @@ public class Film {
     private FilmType type;
 
     private String duration;
-    private int rating;
+    private double rating;
     private String description;
     private LocalDate exitDate;
     private String trailer;
@@ -44,7 +44,7 @@ public class Film {
     @JsonIgnore
     private List<Show> shows;
 
-    public Film(String title, String director, FilmType type, String duration, int rating, String description, LocalDate exitDate, String trailer, String cover) {
+    public Film(String title, String director, FilmType type, String duration, double rating, String description, LocalDate exitDate, String trailer, String cover) {
         this.title = title;
         this.director = director;
         this.type = type;
