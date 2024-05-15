@@ -6,12 +6,16 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import riccardo.BACKEND.entities.CinemaRoom;
+import riccardo.BACKEND.entities.Film;
 import riccardo.BACKEND.entities.Seat;
 import riccardo.BACKEND.entities.Show;
 import riccardo.BACKEND.exceptions.NotFoundException;
 import riccardo.BACKEND.payloads.ShowDTO;
 import riccardo.BACKEND.repositories.ShowDAO;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -34,6 +38,9 @@ public class ShowService {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
         return this.showDAO.findAll(pageable);
     }
+    public List<Show> getAllShows(){
+        return this.showDAO.findAll();
+    }
 
     public Show getShowById (long id){
         return this.showDAO.findById(id).orElseThrow(() -> new NotFoundException(id));
@@ -41,6 +48,10 @@ public class ShowService {
     }
     public Show saveShow (ShowDTO payload){
         Show show = new Show(payload.showDate(), payload.showTime(), filmService.getFilmById(payload.idFilm()), cinemaRoomService.getCinemaRoomById(payload.idCinemaRoom()));
+        return this.showDAO.save(show);
+    }
+    public Show saveShow (Show payload){
+        Show show = new Show(payload.getShowDate(), payload.getShowTime(), filmService.getFilmById(payload.getFilm().getId()), cinemaRoomService.getCinemaRoomById(payload.getCinemaRoom().getNumber()));
         return this.showDAO.save(show);
     }
     public Show updateShow (long id, ShowDTO payload){
@@ -56,4 +67,19 @@ public class ShowService {
         Show show = this.showDAO.findById(id).orElseThrow(() -> new NotFoundException(id));
         this.showDAO.delete(show);
     }
+    public Show findShowByDateTimeAndRoom(LocalDate showDate, LocalTime showTime, CinemaRoom cinemaRoom) {
+        List<Show> shows = showDAO.findShowByDateTimeAndRoom(showDate, cinemaRoom);
+        for (Show show : shows) {
+            if (show.getShowTime().contains(showTime)) {
+                return show;
+            }
+        }
+        return null;
+    }
+
+    public List<Show> getAllShowsByFilmId(long filmId) {
+        Film film = filmService.getFilmById(filmId);
+        return this.showDAO.findAllByFilm(film);
+    }
+
 }

@@ -45,7 +45,7 @@ public class FilmController {
     }
 
     @PutMapping ("/{filmId}")
-    public Film updateFilm (@PathVariable long filmId, @RequestBody @Validated FilmDTO payload, BindingResult validation ){
+    public Film updateFilm (@PathVariable long filmId, @RequestBody @Validated Film payload, BindingResult validation ){
         if (validation.hasErrors()) throw new BadRequestException(validation.getAllErrors());
         return this.filmService.updateFilm(filmId, payload);
     }

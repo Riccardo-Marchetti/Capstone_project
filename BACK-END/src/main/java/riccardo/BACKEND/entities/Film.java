@@ -55,4 +55,19 @@ public class Film {
         this.trailer = trailer;
         this.cover = cover;
     }
+
+    @Override
+    public String toString() {
+        return "Film{" +
+                "title='" + title + '\'' +
+                ", director='" + director + '\'' +
+                ", type=" + type +
+                ", duration='" + duration + '\'' +
+                ", rating=" + rating +
+                ", description='" + description + '\'' +
+                ", exitDate=" + exitDate +
+                ", trailer='" + trailer + '\'' +
+                ", cover='" + cover + '\'' +
+                '}';
+    }
 }

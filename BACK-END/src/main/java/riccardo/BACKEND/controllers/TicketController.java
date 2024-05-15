@@ -41,10 +41,10 @@ public class TicketController {
 
     @PostMapping
     @ResponseStatus (HttpStatus.CREATED)
-    public Ticket saveTicket (@RequestBody @Validated TicketDTO payload, BindingResult validation){
+    public Ticket saveTicket (@AuthenticationPrincipal User currentUser,@RequestBody @Validated TicketDTO payload, BindingResult validation){
         if (validation.hasErrors()) throw new BadRequestException(validation.getAllErrors());
         List<Seat> seats = seatService.getSeatsByIds(payload.idSeat());
-        return ticketService.saveTicket(payload, seats);
+        return ticketService.saveTicket(currentUser, payload, seats);
     }
 
     @PutMapping ("/{ticketId}")

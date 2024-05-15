@@ -24,13 +24,18 @@ public class ShowController {
     private ShowService showService;
 
     @GetMapping
-    public Page<Show> getAllShows(@RequestParam (defaultValue = "0") int page, @RequestParam (defaultValue = "20") int size, @RequestParam (defaultValue = "film") String sortBy){
+    public Page<Show> getAllShows(@RequestParam (defaultValue = "0") int page, @RequestParam (defaultValue = "30") int size, @RequestParam (defaultValue = "film") String sortBy){
         return this.showService.getAllShows(page, size, sortBy);
     }
 
     @GetMapping ("/{showId}")
     public Show getShowById (@PathVariable long showId){
         return this.showService.getShowById(showId);
+    }
+
+    @GetMapping("/film/{filmId}")
+    public List<Show> getAllShowsByFilmId(@PathVariable long filmId) {
+        return this.showService.getAllShowsByFilmId(filmId);
     }
 
     @PostMapping

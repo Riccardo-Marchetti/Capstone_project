@@ -43,4 +43,11 @@ public class CinemaRoom {
         this.cinema = cinema;
         this.seat = seat;
     }
+
+    @Override
+    public String toString() {
+        return "CinemaRoom{" +
+                "totalSeat=" + totalSeat +
+                '}';
+    }
 }

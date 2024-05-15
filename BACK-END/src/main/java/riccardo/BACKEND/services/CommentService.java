@@ -57,7 +57,7 @@ public class CommentService {
         //Update movie rating
         Film film = savedComment.getFilm();
         film.setRating(averageRating);
-        filmService.saveFilm(film);
+        filmService.updateFilm(film.getId(), film);
 
         return savedComment;
     }

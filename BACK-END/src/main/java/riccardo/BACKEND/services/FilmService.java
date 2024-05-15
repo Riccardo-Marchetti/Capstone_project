@@ -40,16 +40,17 @@ public class FilmService {
         Film film = new Film(payload.getTitle(), payload.getDirector(), payload.getType(), payload.getDuration(), payload.getRating(), payload.getDescription(), payload.getExitDate(), payload.getTrailer(), payload.getCover());
         return this.filmDAO.save(film);
     }
-    public Film updateFilm (long id, FilmDTO payload){
+
+    public Film updateFilm (long id, Film payload){
         Film film = this.filmDAO.findById(id).orElseThrow(() -> new NotFoundException(id));
-        film.setTitle(payload.title());
-        film.setDirector(payload.director());
-        film.setType(payload.type());
-        film.setDuration(payload.duration());
-        film.setRating(payload.rating());
-        film.setDescription(payload.description());
-        film.setExitDate(payload.exitDate());
-        film.setTrailer(payload.trailer());
+        film.setTitle(payload.getTitle());
+        film.setDirector(payload.getDirector());
+        film.setType(payload.getType());
+        film.setDuration(payload.getDuration());
+        film.setRating(payload.getRating());
+        film.setDescription(payload.getDescription());
+        film.setExitDate(payload.getExitDate());
+        film.setTrailer(payload.getTrailer());
         return this.filmDAO.save(film);
     }
     public void deleteFilm (long id){
