@@ -14,8 +14,11 @@ import riccardo.BACKEND.payloads.TicketDTO;
 import riccardo.BACKEND.payloads.UserDTO;
 import riccardo.BACKEND.repositories.TicketDAO;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TicketService {
@@ -71,4 +74,11 @@ public class TicketService {
     public List<Ticket> findTicketsByUser (User user){
         return this.ticketDAO.findByUser(user);
     }
+public List<Long> getBookedSeatsForShow(long showId, LocalDate showDate, List<LocalTime> showTime) {
+    List<Ticket> tickets = ticketDAO.findAllByShowIdAndShowDateTime(showId, showDate, showTime);
+    return tickets.stream()
+            .flatMap(ticket -> ticket.getSeat().stream())
+            .map(Seat::getId)
+            .collect(Collectors.toList());
+}
 }

@@ -23,6 +23,7 @@ public class Seat {
     private long id;
     @Enumerated (EnumType.STRING)
     private SeatType type;
+    private double price;
 
 //    @ManyToOne
 //    @JoinColumn (name = "ticket_id")
@@ -36,12 +37,19 @@ public class Seat {
     @JoinColumn (name = "cinemaRoom_id")
     private CinemaRoom cinemaRoom;
 
-    public Seat(SeatType type, CinemaRoom cinemaRoom) {
+    public Seat(SeatType type,CinemaRoom cinemaRoom) {
         this.type = type;
+
         this.cinemaRoom = cinemaRoom;
     }
 
+    public Seat(SeatType type, double price) {
+        this.type = type;
+        this.price = price;
+    }
     public Seat(SeatType type) {
         this.type = type;
+
     }
+
 }

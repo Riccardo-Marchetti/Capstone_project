@@ -18,6 +18,8 @@ import riccardo.BACKEND.services.FilmService;
 import riccardo.BACKEND.services.SeatService;
 import riccardo.BACKEND.services.TicketService;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @RestController
@@ -39,6 +41,10 @@ public class TicketController {
         return ticketService.getTicketById(ticketId);
     }
 
+@GetMapping("/bookedSeats/{showId}/{showDate}/{showTime}")
+public List<Long> getBookedSeatsForShow(@PathVariable long showId, @PathVariable LocalDate showDate, @PathVariable List<LocalTime> showTime) {
+    return ticketService.getBookedSeatsForShow(showId, showDate, showTime);
+}
     @PostMapping
     @ResponseStatus (HttpStatus.CREATED)
     public Ticket saveTicket (@AuthenticationPrincipal User currentUser,@RequestBody @Validated TicketDTO payload, BindingResult validation){

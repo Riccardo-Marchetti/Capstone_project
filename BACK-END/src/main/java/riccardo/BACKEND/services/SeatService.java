@@ -22,7 +22,7 @@ public class SeatService {
     private SeatDAO seatDAO;
 
     public Page<Seat> getAllSeats(int page, int size, String sortBy){
-        if (size > 20) size = 20;
+        if (size > 64) size = 64;
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
         return this.seatDAO.findAll(pageable);
     }
@@ -38,7 +38,7 @@ public class SeatService {
         return this.seatDAO.save(seat);
     }
     public Seat saveSeat (Seat seat){
-        Seat newSeat = new Seat(seat.getType());
+        Seat newSeat = new Seat(seat.getType(), seat.getPrice());
         return this.seatDAO.save(seat);
     }
     public Seat updateSeat (long id, SeatDTO payload){

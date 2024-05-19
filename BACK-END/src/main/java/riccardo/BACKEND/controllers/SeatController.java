@@ -24,7 +24,7 @@ public class SeatController {
     private SeatService seatService;
 
     @GetMapping
-    public Page<Seat> getAllSeats(@RequestParam (defaultValue = "0") int page, @RequestParam (defaultValue = "20") int size, @RequestParam (defaultValue = "id") String sortBy){
+    public Page<Seat> getAllSeats(@RequestParam (defaultValue = "0") int page, @RequestParam (defaultValue = "64") int size, @RequestParam (defaultValue = "id") String sortBy){
         return this.seatService.getAllSeats(page, size, sortBy);
     }
 
