@@ -44,8 +44,6 @@ public class SeatService {
     public Seat updateSeat (long id, SeatDTO payload){
         Seat seat = this.seatDAO.findById(id).orElseThrow(() -> new NotFoundException(id));
         seat.setType(payload.type());
-//        seat.setBooked(payload.booked());
-//        seat.setBookingDate(payload.bookingDate());
         return this.seatDAO.save(seat);
     }
     public void deleteSeat (long id){

@@ -17,6 +17,7 @@ import riccardo.BACKEND.repositories.ShowDAO;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ShowService {
@@ -60,7 +61,6 @@ public class ShowService {
         show.setShowTime(payload.showTime());
         show.setFilm(filmService.getFilmById(payload.idFilm()));
         show.setCinemaRoom(cinemaRoomService.getCinemaRoomById(payload.idCinemaRoom()));
-        show.setTicket(ticketService.getTicketsByIds(payload.idTicket()));
         return this.showDAO.save(show);
     }
     public void deleteShow (long id){
@@ -81,5 +81,29 @@ public class ShowService {
         Film film = filmService.getFilmById(filmId);
         return this.showDAO.findAllByFilm(film);
     }
+    public List<Show> getShowtimesByCityAndFilm(String city, long filmId) {
 
+        List<Show> allShowtimes = showDAO.findAll();
+
+
+        List<Show> showtimesByCityAndFilm = allShowtimes.stream()
+                .filter(showtime -> showtime.getCinemaRoom().getCinema().getCity().equals(city) && showtime.getFilm().getId() == (filmId))
+                .collect(Collectors.toList());
+
+        return showtimesByCityAndFilm;
+    }
+
+    public List<Show> getShowByCityDateAndFilm(String city, LocalDate date, long filmId) {
+
+        List<Show> allShows  = showDAO.findAll();
+
+        List<Show> showsByCityDateAndFilm = allShows.stream()
+                .filter(show -> show.getCinemaRoom().getCinema().getCity().equals(city)
+                        && show.getShowDate().equals(date)
+                        && show.getFilm().getId() == filmId)
+                .collect(Collectors.toList());
+
+        return showsByCityDateAndFilm;
+    }
 }
+

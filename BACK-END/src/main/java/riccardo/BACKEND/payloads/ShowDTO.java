@@ -19,7 +19,5 @@ public record ShowDTO(@FutureOrPresent(message = "The Show date must be today or
                       long idFilm,
                       @NotNull(message = "Id cinema room is mandatory")
                       @Min(1)
-                      long idCinemaRoom,
-                      @NotNull(message = "Id ticket is mandatory")
-                      List<Long> idTicket) {
+                      long idCinemaRoom) {
 }

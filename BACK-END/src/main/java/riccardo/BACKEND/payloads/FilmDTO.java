@@ -2,6 +2,7 @@ package riccardo.BACKEND.payloads;
 
 import jakarta.validation.constraints.*;
 import org.hibernate.validator.constraints.URL;
+import riccardo.BACKEND.enums.FilmState;
 import riccardo.BACKEND.enums.FilmType;
 
 import java.time.LocalDate;
@@ -28,6 +29,9 @@ public record FilmDTO(@NotEmpty(message = "Title is mandatory")
                       String trailer,
                       @NotNull(message = "Cover is mandatory" )
                       @URL(message = "Invalid URL")
-                      String cover
+                      String cover,
+                      @NotNull(message = "Film state is mandatory")
+                      FilmState filmState
+
 ) {
 }

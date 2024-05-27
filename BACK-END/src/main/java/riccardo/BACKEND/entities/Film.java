@@ -3,6 +3,7 @@ package riccardo.BACKEND.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import riccardo.BACKEND.enums.FilmState;
 import riccardo.BACKEND.enums.FilmType;
 
 
@@ -28,13 +29,14 @@ public class Film {
 
     @Enumerated (EnumType.STRING)
     private FilmType type;
-
     private String duration;
     private double rating;
     private String description;
     private LocalDate exitDate;
     private String trailer;
     private String cover;
+    @Enumerated (EnumType.STRING)
+    private FilmState filmState;
 
     @OneToMany (mappedBy = "film")
     @JsonIgnore
@@ -44,7 +46,7 @@ public class Film {
     @JsonIgnore
     private List<Show> shows;
 
-    public Film(String title, String director, FilmType type, String duration, double rating, String description, LocalDate exitDate, String trailer, String cover) {
+    public Film(String title, String director, FilmType type, String duration, double rating, String description, LocalDate exitDate, String trailer, String cover, FilmState filmState) {
         this.title = title;
         this.director = director;
         this.type = type;
@@ -54,6 +56,7 @@ public class Film {
         this.exitDate = exitDate;
         this.trailer = trailer;
         this.cover = cover;
+        this.filmState = filmState;
     }
 
     @Override
@@ -68,6 +71,7 @@ public class Film {
                 ", exitDate=" + exitDate +
                 ", trailer='" + trailer + '\'' +
                 ", cover='" + cover + '\'' +
+                ", filmState=" + filmState +
                 '}';
     }
 }

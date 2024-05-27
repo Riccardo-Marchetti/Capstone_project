@@ -25,10 +25,6 @@ public class Seat {
     private SeatType type;
     private double price;
 
-//    @ManyToOne
-//    @JoinColumn (name = "ticket_id")
-//    private Ticket ticket;
-
     @ManyToMany(mappedBy = "seat")
     @JsonIgnore
     private List<Ticket> tickets;

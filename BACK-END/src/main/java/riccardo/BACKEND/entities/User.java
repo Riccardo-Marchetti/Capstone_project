@@ -18,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@JsonIgnoreProperties({"password", "role", "authorities", "credentialsNonExpired", "accountNonExpired", "accountNonLocked", "enabled"})
+@JsonIgnoreProperties({"password",  "authorities", "credentialsNonExpired", "accountNonExpired", "accountNonLocked", "enabled"})
 public class User implements UserDetails {
 
     // ATTRIBUTI

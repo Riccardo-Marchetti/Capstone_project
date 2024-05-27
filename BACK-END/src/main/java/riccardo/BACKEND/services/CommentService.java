@@ -83,4 +83,8 @@ public class CommentService {
         return this.commentDAO.findByFilm(film, pageable);
 
     }
+    public Comment getCommentByIdAndMovieId(long commentId, long filmId) {
+        return this.commentDAO.findByIdAndFilmId(commentId, filmId)
+                .orElseThrow(() -> new NotFoundException(commentId));
+    }
 }

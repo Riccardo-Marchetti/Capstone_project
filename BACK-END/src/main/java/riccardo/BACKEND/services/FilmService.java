@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import riccardo.BACKEND.entities.Film;
+import riccardo.BACKEND.enums.FilmState;
 import riccardo.BACKEND.enums.FilmType;
 import riccardo.BACKEND.enums.SeatType;
 import riccardo.BACKEND.exceptions.NotFoundException;
@@ -33,11 +34,11 @@ public class FilmService {
 
     }
     public Film saveFilm (FilmDTO payload){
-        Film film = new Film(payload.title(), payload.director(), payload.type(), payload.duration(), payload.rating(), payload.description(), payload.exitDate(), payload.trailer(), payload.cover());
+        Film film = new Film(payload.title(), payload.director(), payload.type(), payload.duration(), payload.rating(), payload.description(), payload.exitDate(), payload.trailer(), payload.cover(), payload.filmState());
         return this.filmDAO.save(film);
     }
     public Film saveFilm (Film payload){
-        Film film = new Film(payload.getTitle(), payload.getDirector(), payload.getType(), payload.getDuration(), payload.getRating(), payload.getDescription(), payload.getExitDate(), payload.getTrailer(), payload.getCover());
+        Film film = new Film(payload.getTitle(), payload.getDirector(), payload.getType(), payload.getDuration(), payload.getRating(), payload.getDescription(), payload.getExitDate(), payload.getTrailer(), payload.getCover(), payload.getFilmState());
         return this.filmDAO.save(film);
     }
 
@@ -61,4 +62,11 @@ public class FilmService {
     public List<Film> findFilmByType (FilmType type){
         return this.filmDAO.findByType(type);
     }
+    public List<Film> findByFilmState (FilmState filmState){
+        return this.filmDAO.findByFilmState(filmState);
+    }
+    public List<Film> findFilmByTitleFragment(String titleFragment) {
+        return filmDAO.findByTitleContainingIgnoreCase(titleFragment);
+    }
+
 }

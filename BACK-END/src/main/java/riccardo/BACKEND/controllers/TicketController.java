@@ -3,6 +3,7 @@ package riccardo.BACKEND.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -37,16 +38,19 @@ public class TicketController {
     }
 
     @GetMapping ("/{ticketId}")
+
     public Ticket getTicketById (@PathVariable long ticketId){
         return ticketService.getTicketById(ticketId);
     }
 
 @GetMapping("/bookedSeats/{showId}/{showDate}/{showTime}")
+@PreAuthorize("hasAuthority('ADMIN') || hasAuthority('MODERATOR') || hasAuthority('USER')")
 public List<Long> getBookedSeatsForShow(@PathVariable long showId, @PathVariable LocalDate showDate, @PathVariable List<LocalTime> showTime) {
     return ticketService.getBookedSeatsForShow(showId, showDate, showTime);
 }
     @PostMapping
     @ResponseStatus (HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('ADMIN') || hasAuthority('MODERATOR') || hasAuthority('USER')")
     public Ticket saveTicket (@AuthenticationPrincipal User currentUser,@RequestBody @Validated TicketDTO payload, BindingResult validation){
         if (validation.hasErrors()) throw new BadRequestException(validation.getAllErrors());
         List<Seat> seats = seatService.getSeatsByIds(payload.idSeat());
@@ -54,12 +58,14 @@ public List<Long> getBookedSeatsForShow(@PathVariable long showId, @PathVariable
     }
 
     @PutMapping ("/{ticketId}")
+    @PreAuthorize("hasAuthority('ADMIN') || hasAuthority('MODERATOR')")
     public Ticket updateTicket (@PathVariable long ticketId, @RequestBody @Validated TicketDTO payload, BindingResult validation ){
         if (validation.hasErrors()) throw new BadRequestException(validation.getAllErrors());
         return ticketService.updateTicket(ticketId, payload);
     }
 
     @DeleteMapping ("/{ticketId}")
+    @PreAuthorize("hasAuthority('ADMIN') || hasAuthority('MODERATOR')")
     @ResponseStatus (HttpStatus.NO_CONTENT)
     public void deleteTicket (@PathVariable long ticketId){
         this.ticketService.deleteTicket(ticketId);
