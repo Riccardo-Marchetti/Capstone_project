@@ -36,7 +36,7 @@ There are 8 films showing in theaters, and another 8 in the "Coming Soon" sectio
 ## Technologies
 For this project, I have used many of the technologies learned in the past 6 months of the course. <br /> Here is a list of what I have used:  
 - For backend development, I used Java with the Spring Boot framework. Its libraries allowed me to create an efficient and secure backend, enabling me to manage user registration to protect their credentials. <br /> At the time of access, thanks to JWT (JSON Web Tokens) authentication, a token will be generated and saved to securely authenticate users. <br /> I managed the API requests for the front-end so that various endpoints are available for the administrator and moderators so that they can make all available requests, while not all are available for users to ensure safe management of the application.  
-- To manage the databadse and the data flow I used postgreSQL.  
+- To manage the database and the data flow I used postgreSQL.  
 - For front-end development, I used React with the Redux library to manage the global state of the application. I used it for ticket booking, saving all necessary data in the Redux state. <br /> To manage the URLs of the pages and navigate between them, I used react-router-dom. It was useful for passing the movie ID from the homepage to the details page, using it to make requests to the back-end to manage ticket reservations. <br /> For styling, I used the Bootstrap library, which allowed me to easily manage the layout of elements and the responsive part of the application.
 ## How to clone
 **Front-end:**
