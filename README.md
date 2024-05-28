@@ -52,4 +52,4 @@ For this project, I have used many of the technologies learned in the past 6 mon
 3. Remember to update the application.proprieties file with your database credentials and stuff.
 4. Start the application with `$ mvn spring-boot:run` and then click "ok".  
 
-Create an account on the registration page and log in with that account. Il tuo token di accesso sarà memorizzato nella memoria locale. You will be redirected to the home page where there will be a carousel with active promotions, below are the films being screened and those not yet in theaters. From the films, you can watch trailers or book a ticket by selecting seats on the appropriate page.  
+Create an account on the registration page and log in with that account. Your access token will be stored in the local storage. <br /> You will be redirected to the home page where there will be a carousel with active promotions, below are the films being screened and those not yet in theaters. From the films, you can watch trailers or book a ticket by selecting seats on the appropriate page.  
