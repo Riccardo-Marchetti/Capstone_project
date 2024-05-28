@@ -16,7 +16,7 @@ public class CorsConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource(){
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://localhost:5173/"));
+        config.setAllowedOrigins(Arrays.asList("http://localhost:3000", "https://dream-cinema-front-end.vercel.app/"));
         config.setAllowedMethods(Arrays.asList("*"));
         config.setAllowedHeaders(Arrays.asList("*"));
 
