@@ -24,18 +24,21 @@ public class SeatController {
     @Autowired
     private SeatService seatService;
 
+    // This method is used to get all seats
     @GetMapping
     @PreAuthorize("hasAuthority('ADMIN') || hasAuthority('MODERATOR') || hasAuthority('USER')")
     public Page<Seat> getAllSeats(@RequestParam (defaultValue = "0") int page, @RequestParam (defaultValue = "64") int size, @RequestParam (defaultValue = "id") String sortBy){
         return this.seatService.getAllSeats(page, size, sortBy);
     }
 
+    // This method is used to get a seat by its ID
     @GetMapping ("/{seatId}")
     @PreAuthorize("hasAuthority('ADMIN') || hasAuthority('MODERATOR') || hasAuthority('USER')")
     public Seat getSeatById (@PathVariable long seatId){
         return this.seatService.getSeatById(seatId);
     }
 
+    // This method is used to save a new seat
     @PostMapping
     @ResponseStatus (HttpStatus.CREATED)
     @PreAuthorize("hasAuthority('ADMIN') || hasAuthority('MODERATOR') ")
@@ -44,6 +47,7 @@ public class SeatController {
         return this.seatService.saveSeat(payload);
     }
 
+    // This method is used to update an existing seat
     @PutMapping ("/{seatId}")
     @PreAuthorize("hasAuthority('ADMIN') || hasAuthority('MODERATOR') ")
     public Seat updateSeat (@PathVariable long seatId, @RequestBody @Validated SeatDTO payload, BindingResult validation ){
@@ -51,6 +55,7 @@ public class SeatController {
         return this.seatService.updateSeat(seatId, payload);
     }
 
+    // This method is used to delete a seat
     @DeleteMapping ("/{seatId}")
     @ResponseStatus (HttpStatus.NO_CONTENT)
     @PreAuthorize("hasAuthority('ADMIN') || hasAuthority('MODERATOR') ")

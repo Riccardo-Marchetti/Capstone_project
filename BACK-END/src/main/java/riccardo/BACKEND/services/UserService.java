@@ -38,16 +38,20 @@ public class UserService {
     @Autowired
     private MailgunSender mailgunSender;
 
+    // Returns a page of user
     public Page<User> getAllUsers(int page, int size, String sortBy){
         if (size > 20) size = 20;
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
         return this.userDAO.findAll(pageable);
     }
 
+    // Returns a user from its id
     public User getUserById (long id){
         return this.userDAO.findById(id).orElseThrow(() -> new NotFoundException("User " + id + " has not been found"));
 
     }
+
+    // Saves a new user to the database
     public User saveUser (UserDTO payload){
         if (this.userDAO.existsByUsernameAndEmail(payload.username(), payload.email()))
             throw new BadRequestException("Email " + payload.email() + " and Username " + payload.username() + " are already taken");
@@ -61,6 +65,7 @@ public class UserService {
         return this.userDAO.save(users);
     }
 
+    // Updates a user in the database
     public User updateUser (long id, UserDTO payload){
         User user = this.userDAO.findById(id).orElseThrow(() -> new NotFoundException(id));
         if (user.getEmail().equals(payload.email())) {
@@ -80,14 +85,19 @@ public class UserService {
             return user;
         } else throw new BadRequestException("You are not allowed to change the email without permission");
     }
+
+    // Deletes a user from the database
     public void deleteUser (long id){
         User user = this.userDAO.findById(id).orElseThrow(() -> new NotFoundException(id));
         this.userDAO.delete(user);
     }
+
+    // Find user by email
     public User findByEmail(String email) {
         return this.userDAO.findByEmail(email).orElseThrow(() -> new NotFoundException("Email " + email + " has not been found"));
     }
 
+    // Checks if a User exists by username
     public User existsByUsername(String name, String surname, String username, String email, String password){
         User user = this.userDAO.findByUsername(username);
         if (user == null){
@@ -97,6 +107,7 @@ public class UserService {
         return user;
     }
 
+    // Uploads an image
     public User uploadImage(MultipartFile image, long id) throws IOException {
         User user = this.userDAO.findById(id).orElseThrow(() -> new NotFoundException(id));
         String avatar = (String) cloudinary.uploader().upload(image.getBytes(), ObjectUtils.emptyMap()).get("url");

@@ -12,10 +12,15 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
+// This interface is a repository for Show entities
 @Repository
 public interface ShowDAO extends JpaRepository<Show, Long> {
+
+    // This method find shows by their date, time and cinema room
     @Query("SELECT s FROM Show s WHERE s.showDate = :showDate  AND s.cinemaRoom = :cinemaRoom")
-   List<Show> findShowByDateTimeAndRoom(@Param("showDate") LocalDate showDate,  @Param("cinemaRoom") CinemaRoom cinemaRoom);
-   List<Show> findAllByFilm(Film film);
+    List<Show> findShowByDateTimeAndRoom(@Param("showDate") LocalDate showDate,  @Param("cinemaRoom") CinemaRoom cinemaRoom);
+
+    // This method find shows by film
+    List<Show> findAllByFilm(Film film);
 }
 

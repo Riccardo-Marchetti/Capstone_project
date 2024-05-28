@@ -9,9 +9,16 @@ import riccardo.BACKEND.enums.SeatType;
 
 import java.util.List;
 
+// This interface is a repository for Film entities
 @Repository
 public interface FilmDAO extends JpaRepository<Film, Long> {
+
+    //  This method searches for movies by type
     List<Film> findByType (FilmType type);
+
+    //  This method searches for movies by state
     List<Film> findByFilmState (FilmState filmState);
+
+    //  This method searches for movies by title
     List<Film> findByTitleContainingIgnoreCase(String query);
 }

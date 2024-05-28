@@ -14,7 +14,7 @@ import java.util.List;
 @ToString
 public class CinemaRoom {
 
-    // ATTRIBUTI
+    // ATTRIBUTES
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter (AccessLevel.NONE)
@@ -29,6 +29,7 @@ public class CinemaRoom {
     @JsonIgnore
     private List<Seat> seat;
 
+    // CONSTRUCTOR
     public CinemaRoom(int totalSeat, Cinema cinema) {
         this.totalSeat = totalSeat;
         this.cinema = cinema;

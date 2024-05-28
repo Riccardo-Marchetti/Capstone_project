@@ -7,6 +7,7 @@ import riccardo.BACKEND.enums.FilmType;
 
 import java.time.LocalDate;
 
+// This class is a Data Transfer Object (DTO) for Film
 public record FilmDTO(@NotEmpty(message = "Title is mandatory")
                       String title,
                       @NotEmpty(message = "Director is mandatory")

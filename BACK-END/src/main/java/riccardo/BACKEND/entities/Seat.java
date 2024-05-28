@@ -16,7 +16,7 @@ import java.util.List;
 @ToString
 public class Seat {
 
-    // ATTRIBUTI
+    // ATTRIBUTES
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter (AccessLevel.NONE)
@@ -33,6 +33,7 @@ public class Seat {
     @JoinColumn (name = "cinemaRoom_id")
     private CinemaRoom cinemaRoom;
 
+    // CONSTRUCTOR
     public Seat(SeatType type,CinemaRoom cinemaRoom) {
         this.type = type;
 
@@ -43,6 +44,7 @@ public class Seat {
         this.type = type;
         this.price = price;
     }
+
     public Seat(SeatType type) {
         this.type = type;
 

@@ -4,6 +4,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
+// This class is a Data Transfer Object (DTO) for User
 public record UserDTO(@NotEmpty(message = "Name is mandatory")
                       @Size(min = 3, message = "Name must be longer than 3 chars")
                       String name,

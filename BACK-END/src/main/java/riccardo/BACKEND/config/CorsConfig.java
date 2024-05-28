@@ -12,6 +12,7 @@ import java.util.Arrays;
 @Configuration
 public class CorsConfig {
 
+    //  This method defines the CORS configuration for the application
     @Bean
     CorsConfigurationSource corsConfigurationSource(){
         CorsConfiguration config = new CorsConfiguration();

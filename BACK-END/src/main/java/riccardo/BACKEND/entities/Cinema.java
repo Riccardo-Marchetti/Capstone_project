@@ -14,7 +14,7 @@ import java.util.List;
 @ToString
 public class Cinema {
 
-    // ATTRIBUTI
+    // ATTRIBUTES
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter (AccessLevel.NONE)
@@ -27,16 +27,11 @@ public class Cinema {
     @JsonIgnore
     private List<CinemaRoom> cinemaRoom;
 
+    // CONSTRUCTOR
     public Cinema(String name, String city, String address) {
         this.name = name;
         this.city = city;
         this.address = address;
     }
 
-    public Cinema(String name, String city, String address, List<CinemaRoom> cinemaRoom) {
-        this.name = name;
-        this.city = city;
-        this.address = address;
-        this.cinemaRoom = cinemaRoom;
-    }
 }

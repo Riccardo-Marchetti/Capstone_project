@@ -21,7 +21,7 @@ import java.util.List;
 @JsonIgnoreProperties({"password",  "authorities", "credentialsNonExpired", "accountNonExpired", "accountNonLocked", "enabled"})
 public class User implements UserDetails {
 
-    // ATTRIBUTI
+    // ATTRIBUTES
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter (AccessLevel.NONE)
@@ -42,6 +42,7 @@ public class User implements UserDetails {
     @OneToMany (mappedBy = "user")
     private List<Comment> comment;
 
+    // CONSTRUCTOR
     public User(String name,String surname, String username, String email, String password) {
         this.name = name;
         this.surname = surname;
@@ -61,6 +62,7 @@ public class User implements UserDetails {
         this.avatar = "https://ui-avatars.com/api/?name=" + this.name + "+" + this.surname;
         this.role = role;
     }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(this.role.name()));

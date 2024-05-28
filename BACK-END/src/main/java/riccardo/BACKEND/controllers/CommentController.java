@@ -28,24 +28,28 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
+    // This method is used to get all comments
     @GetMapping
     @PreAuthorize("hasAuthority('ADMIN') || hasAuthority('MODERATOR')")
     public Page<Comment> getAllComments(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "20") int size, @RequestParam (defaultValue = "rating") String sortBy){
         return commentService.getAllComments(page, size, sortBy);
     }
 
+    // This method is used to get a comment by its ID
     @GetMapping ("/{commentId}")
     @PreAuthorize("hasAuthority('ADMIN') || hasAuthority('MODERATOR')")
     public Comment getCommentById (@PathVariable long commentId){
         return this.commentService.getCommentById(commentId);
     }
 
+    // This method is used to get comments by film ID
     @GetMapping ("/comments/{filmId}")
     @PreAuthorize("hasAuthority('ADMIN') || hasAuthority('MODERATOR') || hasAuthority('USER')")
     public Page<Comment> getCommentsByFilm(@PathVariable long filmId, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "20") int size){
         return this.commentService.getCommentsByFilm(filmId, page, size);
     }
 
+    // This method is used to save a new comment
     @PostMapping
     @ResponseStatus (HttpStatus.CREATED)
     @PreAuthorize("hasAuthority('ADMIN') || hasAuthority('MODERATOR')")
@@ -54,6 +58,7 @@ public class CommentController {
         return this.commentService.saveComment(payload);
     }
 
+    // This method is used to post a comment by a user
     @PostMapping ("/me/{filmId}")
     @PreAuthorize("hasAuthority('ADMIN') || hasAuthority('MODERATOR') || hasAuthority('USER')")
     @ResponseStatus (HttpStatus.CREATED)
@@ -62,6 +67,7 @@ public class CommentController {
         return this.commentService.postComment(payload, currentUser, filmId);
     }
 
+    // This method is used to update an existing comment
     @PutMapping ("/{commentId}")
     @PreAuthorize("hasAuthority('ADMIN') || hasAuthority('MODERATOR')")
     public Comment updateComment (@PathVariable long commentId, @RequestBody @Validated CommentDTO payload, BindingResult validation ){
@@ -69,6 +75,7 @@ public class CommentController {
         return this.commentService.updateComment(commentId, payload);
     }
 
+    // This method is used to delete a comment
     @DeleteMapping ("/{commentId}")
     @PreAuthorize("hasAuthority('ADMIN') || hasAuthority('MODERATOR')")
     @ResponseStatus (HttpStatus.NO_CONTENT)
@@ -76,6 +83,7 @@ public class CommentController {
         this.commentService.deleteComment(commentId);
     }
 
+    // This method is used to delete a comment posted by the current user
     @DeleteMapping ("/me/{filmId}/{commentId}")
     @PreAuthorize("hasAuthority('ADMIN') || hasAuthority('MODERATOR') || hasAuthority('USER')")
     public void deleteMyComment (@PathVariable long filmId, @PathVariable long commentId, @AuthenticationPrincipal User currentUser){

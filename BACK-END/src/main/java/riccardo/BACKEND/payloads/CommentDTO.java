@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
+// This class is a Data Transfer Object (DTO) for Comment
 public record CommentDTO(@NotEmpty(message = "Description is mandatory")
                          String description,
                          @NotNull(message = "Rating is mandatory")

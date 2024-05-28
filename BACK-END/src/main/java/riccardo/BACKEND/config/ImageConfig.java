@@ -10,6 +10,8 @@ import java.util.Map;
 
 @Configuration
 public class ImageConfig {
+
+    //  Method to update the profile picture
     @Bean
     public Cloudinary updateImage (@Value("${cloudinary.name}") String name, @Value ("${cloudinary.key}") String key, @Value ("${cloudinary.secret}") String secret){
         Map<String, String> configuration = new HashMap<>();

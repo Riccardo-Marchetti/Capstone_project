@@ -18,7 +18,7 @@ import java.util.List;
 @ToString
 public class Film {
 
-    // ATTRIBUTI
+    // ATTRIBUTES
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Setter (AccessLevel.NONE)
@@ -46,6 +46,7 @@ public class Film {
     @JsonIgnore
     private List<Show> shows;
 
+    // CONSTRUCTOR
     public Film(String title, String director, FilmType type, String duration, double rating, String description, LocalDate exitDate, String trailer, String cover, FilmState filmState) {
         this.title = title;
         this.director = director;

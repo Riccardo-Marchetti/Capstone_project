@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @ToString
 public class Comment {
 
-    // ATTRIBUTI
+    // ATTRIBUTES
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter (AccessLevel.NONE)
@@ -31,6 +31,7 @@ public class Comment {
     @JoinColumn (name = "user_id")
     private User user;
 
+    // CONSTRUCTOR
     public Comment(String description, double rating,  Film film, User user) {
         this.description = description;
         this.rating = rating;

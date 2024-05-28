@@ -35,6 +35,7 @@ public class JWTTools {
         }
     }
 
+    // EXTRACT ID FROM TOKEN
     public String extractIdFromToken (String token){
         return Jwts.parser().verifyWith(Keys.hmacShaKeyFor(secret.getBytes())) // verifica il token con quel segreto
                 .build()

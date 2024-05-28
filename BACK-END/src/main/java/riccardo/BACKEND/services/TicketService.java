@@ -33,16 +33,20 @@ public class TicketService {
     @Autowired
     private ServiceLocator serviceLocator;
 
+    // Returns a page of ticket
     public Page<Ticket> getAllTickets(int page, int size, String sortBy){
         if (size > 20) size = 20;
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
         return this.ticketDAO.findAll(pageable);
     }
 
+    // Returns a ticket by its id
     public Ticket getTicketById (long id){
         return this.ticketDAO.findById(id).orElseThrow(() -> new NotFoundException(id));
 
     }
+
+    // Saves a new ticket to the database
     public Ticket saveTicket (User user, TicketDTO payload, List<Seat> seats){
         ShowService showService = serviceLocator.getService(ShowService.class);
         Ticket ticket = new Ticket( payload.price(),payload.selectedShowTime(), payload.assignedSeats(), user, showService.getShowById(payload.idShow()), seats);
@@ -51,6 +55,8 @@ public class TicketService {
         }
         return this.ticketDAO.save(ticket);
     }
+
+    // Updates a ticket in the database.
     public Ticket updateTicket (long id, TicketDTO payload){
         ShowService showService = serviceLocator.getService(ShowService.class);
         Ticket ticket = this.ticketDAO.findById(id).orElseThrow(() -> new NotFoundException(id));
@@ -59,10 +65,14 @@ public class TicketService {
         ticket.setSeat(seatService.getSeatsByIds(payload.idSeat()));
         return this.ticketDAO.save(ticket);
     }
+
+    // Deletes a ticket from the database.
     public void deleteTicket (long id){
         Ticket ticket = this.ticketDAO.findById(id).orElseThrow(() -> new NotFoundException(id));
         this.ticketDAO.delete(ticket);
     }
+
+    // Returns a list of tickets by their id
     public List<Ticket> getTicketsByIds(List<Long> ticketsIds) {
         List<Ticket> ticketsList = new ArrayList<>();
         for (Long id : ticketsIds) {
@@ -71,14 +81,18 @@ public class TicketService {
         }
         return ticketsList;
     }
+
+    // Returns a list of a user's tickets
     public List<Ticket> findTicketsByUser (User user){
         return this.ticketDAO.findByUser(user);
     }
-public List<Long> getBookedSeatsForShow(long showId, LocalDate showDate, List<LocalTime> showTime) {
+
+    // Returns a list of booked seats for a show
+    public List<Long> getBookedSeatsForShow(long showId, LocalDate showDate, List<LocalTime> showTime) {
     List<Ticket> tickets = ticketDAO.findAllByShowIdAndShowDateTime(showId, showDate, showTime);
     return tickets.stream()
             .flatMap(ticket -> ticket.getSeat().stream())
             .map(Seat::getId)
             .collect(Collectors.toList());
-}
+    }
 }

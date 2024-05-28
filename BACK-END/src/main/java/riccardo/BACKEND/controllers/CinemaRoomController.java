@@ -24,18 +24,21 @@ public class CinemaRoomController {
     @Autowired
     private CinemaRoomService cinemaRoomService;
 
+    // This method is used to get all cinema rooms
     @GetMapping
     @PreAuthorize("hasAuthority('ADMIN') || hasAuthority('MODERATOR')")
     public Page<CinemaRoom> getAllCinemaRoom (@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "20") int size, @RequestParam(defaultValue = "number") String sortBy){
         return this.cinemaRoomService.getAllRoom(page, size, sortBy);
     }
 
+    // This method is used to get a cinema room by its ID
     @GetMapping ("/{roomId}")
     @PreAuthorize("hasAuthority('ADMIN') || hasAuthority('MODERATOR')")
     public CinemaRoom getCinemaRoomById (@PathVariable long roomId){
         return this.cinemaRoomService.getCinemaRoomById(roomId);
     }
 
+    // This method is used to save a new cinema room
     @PostMapping
     @ResponseStatus (HttpStatus.CREATED)
     @PreAuthorize("hasAuthority('ADMIN') || hasAuthority('MODERATOR')")
@@ -44,6 +47,7 @@ public class CinemaRoomController {
         return this.cinemaRoomService.saveCinemaRoom(payload);
     }
 
+    // This method is used to update an existing cinema room
     @PutMapping ("/{roomId}")
     @PreAuthorize("hasAuthority('ADMIN') || hasAuthority('MODERATOR')")
     public CinemaRoom updateCinemaRoom (@PathVariable long roomId, @RequestBody @Validated CinemaRoomDTO payload, BindingResult validation){
@@ -51,6 +55,7 @@ public class CinemaRoomController {
         return this.cinemaRoomService.updateCinemaRoom(roomId, payload);
     }
 
+    // This method is used to delete a cinema room
     @DeleteMapping ("/{roomId}")
     @PreAuthorize("hasAuthority('ADMIN') || hasAuthority('MODERATOR')")
     @ResponseStatus (HttpStatus.NO_CONTENT)

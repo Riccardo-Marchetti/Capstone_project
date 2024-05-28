@@ -19,17 +19,18 @@ public class AuthService {
     @Autowired
     private PasswordEncoder bcrypt;
 
+    // This method checks the user's credentials and generates a token
     public String authenticationUserAndGenerateToken (UserLoginDTO payload){
-        // 1 controllo le credenziali
-        // 1.1 cerco nel db tramite l’email l’utente
+        // 1 check the credentials
+        // 1.1 search in the db for the user by email
         User user = userService.findByEmail(payload.email());
 
-        // 1.2 verifico se la password combacia con quella ricevuta nel payload
+        // 1.2 verify if the password matches the one received in the payload
         if (bcrypt.matches(payload.password(), user.getPassword())) {
-            // 2 se tutto è ok, genero un token e lo torno
+            // 2 if everything is ok, generate a token and return it
            return jwtTools.createToken(user);
         } else {
-            // 3 altrimenti lancio l'eccezione
+            // 3 otherwise throw an exception
             throw new UnauthorizedException("Incorrect credentials! Log in again");
         }
     }

@@ -15,7 +15,7 @@ import java.util.List;
 @ToString
 public class Ticket {
 
-    // ATTRIBUTI
+    // ATTRIBUTES
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter (AccessLevel.NONE)
@@ -41,9 +41,7 @@ public class Ticket {
             inverseJoinColumns = @JoinColumn(name = "seat_id"))
     private List<Seat> seat;
 
-//    @OneToMany (mappedBy = "ticket")
-//    private List<Seat> seat;
-
+    // CONSTRUCTOR
     public Ticket( double price, User user, Show show, List<Seat> seat) {
         this.price = price;
         this.bookingDate = LocalDate.now();

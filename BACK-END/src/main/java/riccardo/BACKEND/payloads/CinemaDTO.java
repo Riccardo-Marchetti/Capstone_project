@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 
+// This class is a Data Transfer Object (DTO) for Cinema
 public record CinemaDTO(@NotEmpty(message = "Name is mandatory")
                         String name,
                         @NotEmpty(message = "City is mandatory")

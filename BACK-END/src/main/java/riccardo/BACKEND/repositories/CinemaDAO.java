@@ -6,7 +6,9 @@ import riccardo.BACKEND.entities.Cinema;
 
 import java.util.List;
 
+// This interface is a repository for Cinema entities
 @Repository
 public interface CinemaDAO extends JpaRepository<Cinema, Long> {
- List<Cinema> findByNameAndCity (String name, String city);
+   // This method finds cinemas by their name and city
+   List<Cinema> findByNameAndCity (String name, String city);
 }

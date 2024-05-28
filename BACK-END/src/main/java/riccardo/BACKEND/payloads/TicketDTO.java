@@ -9,6 +9,7 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
+// This class is a Data Transfer Object (DTO) for Ticket
 public record TicketDTO(@NotEmpty(message = "Assigned seats is mandatory")
                         String[] assignedSeats,
                         @NotNull(message = "Price is mandatory")
