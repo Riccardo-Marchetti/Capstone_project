@@ -23,8 +23,9 @@ There are 8 films showing in theaters, and another 8 in the "Coming Soon" sectio
 ### Promotions Page
 ![Screenshot (73)](https://github.com/Riccardo-Marchetti/Capstone_project/assets/151193857/3a99868e-038a-41f2-aa85-c1342f2b464c)
 ### Details Page
-![Screenshot (75)](https://github.com/Riccardo-Marchetti/Capstone_project/assets/151193857/52d6ffc5-eaa6-4148-b63b-0773dd62d0e4)
-![Screenshot (79)](https://github.com/Riccardo-Marchetti/Capstone_project/assets/151193857/91f18494-41ab-4789-bda0-b543da1ca76d)
+![Screenshot (80)](https://github.com/Riccardo-Marchetti/Capstone_project/assets/151193857/d1bf3dd3-ca11-4333-934f-056d4c83f912)
+![Screenshot (81)](https://github.com/Riccardo-Marchetti/Capstone_project/assets/151193857/1675e71e-a44d-459c-8f14-32049cfa5e57)
+
 ### Book Seat Page
 ![Screenshot (77)](https://github.com/Riccardo-Marchetti/Capstone_project/assets/151193857/808ee5e4-1527-4ed7-9d48-370b0a32b6be)
 ### Profile Page
