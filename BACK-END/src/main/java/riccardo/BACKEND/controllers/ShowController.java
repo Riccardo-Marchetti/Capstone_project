@@ -27,6 +27,7 @@ public class ShowController {
 
     // This method is used to get all shows
     @GetMapping
+    @PreAuthorize("hasAuthority('ADMIN') || hasAuthority('MODERATOR')")
     public Page<Show> getAllShows(@RequestParam (defaultValue = "0") int page, @RequestParam (defaultValue = "30") int size, @RequestParam (defaultValue = "film") String sortBy){
         return this.showService.getAllShows(page, size, sortBy);
     }

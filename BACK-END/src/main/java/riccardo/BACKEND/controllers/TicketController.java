@@ -34,12 +34,14 @@ public class TicketController {
 
     // This method is used to get all tickets
     @GetMapping
+    @PreAuthorize("hasAuthority('ADMIN') || hasAuthority('MODERATOR')")
     public Page<Ticket> getAllTickets(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "20") int size, @RequestParam(defaultValue = "id") String sortBy){
         return ticketService.getAllTickets(page, size, sortBy);
     }
 
     // This method is used to get a ticket by its ID
     @GetMapping ("/{ticketId}")
+    @PreAuthorize("hasAuthority('ADMIN') || hasAuthority('MODERATOR')")
     public Ticket getTicketById (@PathVariable long ticketId){
         return ticketService.getTicketById(ticketId);
     }
