@@ -16,17 +16,14 @@ import java.util.List;
 @ToString
 public class Seat {
 
-    // ATTRIBUTI
+    // ATTRIBUTES
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter (AccessLevel.NONE)
     private long id;
     @Enumerated (EnumType.STRING)
     private SeatType type;
-
-//    @ManyToOne
-//    @JoinColumn (name = "ticket_id")
-//    private Ticket ticket;
+    private double price;
 
     @ManyToMany(mappedBy = "seat")
     @JsonIgnore
@@ -36,12 +33,21 @@ public class Seat {
     @JoinColumn (name = "cinemaRoom_id")
     private CinemaRoom cinemaRoom;
 
-    public Seat(SeatType type, CinemaRoom cinemaRoom) {
+    // CONSTRUCTOR
+    public Seat(SeatType type,CinemaRoom cinemaRoom) {
         this.type = type;
+
         this.cinemaRoom = cinemaRoom;
+    }
+
+    public Seat(SeatType type, double price) {
+        this.type = type;
+        this.price = price;
     }
 
     public Seat(SeatType type) {
         this.type = type;
+
     }
+
 }

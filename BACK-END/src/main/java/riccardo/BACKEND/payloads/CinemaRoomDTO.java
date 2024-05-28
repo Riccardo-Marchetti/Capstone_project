@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 
+// This class is a Data Transfer Object (DTO) for CinemaRoom
 public record CinemaRoomDTO(@NotNull(message = "Total seat is mandatory")
                             @Min(1)
                             @Max(64)

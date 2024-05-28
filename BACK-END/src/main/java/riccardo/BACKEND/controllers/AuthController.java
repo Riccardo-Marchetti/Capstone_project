@@ -17,15 +17,16 @@ import riccardo.BACKEND.services.UserService;
 public class AuthController {
     @Autowired
     private AuthService authService;
-
     @Autowired
     private UserService userService;
 
+    //  This method is used for user login
     @PostMapping ("/login")
     public UserLoginRespDTO login(@RequestBody UserLoginDTO payload){
         return new UserLoginRespDTO(this.authService.authenticationUserAndGenerateToken(payload));
     }
 
+    //  This method is used for user registration
     @PostMapping ("/register")
     @ResponseStatus (HttpStatus.CREATED)
     private User register (@RequestBody UserDTO payload, BindingResult validation){

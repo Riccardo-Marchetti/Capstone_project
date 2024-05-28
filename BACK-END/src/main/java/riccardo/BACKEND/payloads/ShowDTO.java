@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
+// This class is a Data Transfer Object (DTO) for Show
 public record ShowDTO(@FutureOrPresent(message = "The Show date must be today or in the future.")
                       @NotNull(message = "Show date is mandatory")
                       LocalDate showDate,
@@ -19,7 +20,5 @@ public record ShowDTO(@FutureOrPresent(message = "The Show date must be today or
                       long idFilm,
                       @NotNull(message = "Id cinema room is mandatory")
                       @Min(1)
-                      long idCinemaRoom,
-                      @NotNull(message = "Id ticket is mandatory")
-                      List<Long> idTicket) {
+                      long idCinemaRoom) {
 }

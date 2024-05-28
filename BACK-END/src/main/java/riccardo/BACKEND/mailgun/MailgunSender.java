@@ -8,19 +8,23 @@ import org.springframework.stereotype.Component;
 import riccardo.BACKEND.entities.User;
 
 @Component
+// This class is responsible for sending emails using the Mailgun service
 public class MailgunSender {
 
+    // ATTRIBUTES
     private String apiKey;
     private String domainName;
 
     @Value("${mailgun.email}")
     private String email;
 
+    // Constructor
     public MailgunSender (@Value("${mailgun.apikey}") String apiKey, @Value("${mailgun.domainname}") String domainName){
         this.apiKey = apiKey;
         this.domainName = domainName;
     }
 
+    // This method sends a registration email to a user
     public void sendRegistrationEmail (User user){
         try {
             HttpResponse<JsonNode> response = Unirest.post("https://api.mailgun.net/v3/"+ this.domainName + "/messages")

@@ -9,6 +9,7 @@ public class ServiceLocator {
     @Autowired
     private ApplicationContext applicationContext;
 
+    // Returns a service of the specified type.
     public <T> T getService(Class<T> serviceType) {
         return applicationContext.getBean(serviceType);
     }

@@ -2,10 +2,12 @@ package riccardo.BACKEND.payloads;
 
 import jakarta.validation.constraints.*;
 import org.hibernate.validator.constraints.URL;
+import riccardo.BACKEND.enums.FilmState;
 import riccardo.BACKEND.enums.FilmType;
 
 import java.time.LocalDate;
 
+// This class is a Data Transfer Object (DTO) for Film
 public record FilmDTO(@NotEmpty(message = "Title is mandatory")
                       String title,
                       @NotEmpty(message = "Director is mandatory")
@@ -14,9 +16,10 @@ public record FilmDTO(@NotEmpty(message = "Title is mandatory")
                       FilmType type,
                       @NotNull(message = "Duration is mandatory")
                       String duration,
-                      @NotNull(message = "Id rating is mandatory")
-                      @Min(1)
-                      int rating,
+                      @NotNull(message = "Rating is mandatory")
+                      @Min(0)
+                      @Max(5)
+                      double rating,
                       @NotEmpty(message = "Description is mandatory")
                       String description,
 
@@ -27,6 +30,9 @@ public record FilmDTO(@NotEmpty(message = "Title is mandatory")
                       String trailer,
                       @NotNull(message = "Cover is mandatory" )
                       @URL(message = "Invalid URL")
-                      String cover
+                      String cover,
+                      @NotNull(message = "Film state is mandatory")
+                      FilmState filmState
+
 ) {
 }

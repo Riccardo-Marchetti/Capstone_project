@@ -26,27 +26,27 @@ public class JWTFilter extends OncePerRequestFilter {
 
     @Autowired
     private UserService userService;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        // 1. Controlliamo se nella richiesta corrente ci sia un Authorization Header
+        // 1. Check if the current request has an Authorization Header
             String authHeader = request.getHeader("Authorization");
 
-        // 2. Se c'è estraiamo il token dall'header
+        // 2. If it exists, extract the token from the header
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             throw new UnauthorizedException("Enter the token in the Authorization Header");
         }
-
             String accessToken = authHeader.substring(7);
 
-        // 3. Verifichiamo se il token è stato manipolato e se non è scaduto
-
+        // 3. Verify if the token has been manipulated and if it has not expired
             jwtTools.verifyToken(accessToken);
-        // 4. Se tutto è OK andiamo al prossimo elemento della Filter Chain, per prima o poi arrivare all'endpoint
 
-        // 4.1 Cerco l'utente nel DB tramite id
+        // 4. If everything is OK, go to the next element of the Filter Chain, to eventually reach the endpoint
+        // 4.1 Search for the user in the DB by id
         String id = jwtTools.extractIdFromToken(accessToken);
         User user = this.userService.getUserById(Long.parseLong(id));
-        // 4.2 Devo informare Spring Security su chi sia l'utente corrente che sta effettuando la richiesta. In qualche maniera
+
+        // 4.2 I need to inform Spring Security about who is the current user making the request. Somehow
         Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -54,7 +54,7 @@ public class JWTFilter extends OncePerRequestFilter {
 
     }
 
-    // disabilito il filtro per determinare richieste di tipo login o register
+    // disable the filter for login or register type requests
     @Override
     protected boolean shouldNotFilter (HttpServletRequest request){
         return new AntPathMatcher().match("/auth/**", request.getServletPath());

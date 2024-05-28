@@ -3,6 +3,7 @@ package riccardo.BACKEND.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import riccardo.BACKEND.enums.FilmState;
 import riccardo.BACKEND.enums.FilmType;
 
 
@@ -17,7 +18,7 @@ import java.util.List;
 @ToString
 public class Film {
 
-    // ATTRIBUTI
+    // ATTRIBUTES
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Setter (AccessLevel.NONE)
@@ -28,13 +29,14 @@ public class Film {
 
     @Enumerated (EnumType.STRING)
     private FilmType type;
-
     private String duration;
-    private int rating;
+    private double rating;
     private String description;
     private LocalDate exitDate;
     private String trailer;
     private String cover;
+    @Enumerated (EnumType.STRING)
+    private FilmState filmState;
 
     @OneToMany (mappedBy = "film")
     @JsonIgnore
@@ -44,7 +46,8 @@ public class Film {
     @JsonIgnore
     private List<Show> shows;
 
-    public Film(String title, String director, FilmType type, String duration, int rating, String description, LocalDate exitDate, String trailer, String cover) {
+    // CONSTRUCTOR
+    public Film(String title, String director, FilmType type, String duration, double rating, String description, LocalDate exitDate, String trailer, String cover, FilmState filmState) {
         this.title = title;
         this.director = director;
         this.type = type;
@@ -54,5 +57,22 @@ public class Film {
         this.exitDate = exitDate;
         this.trailer = trailer;
         this.cover = cover;
+        this.filmState = filmState;
+    }
+
+    @Override
+    public String toString() {
+        return "Film{" +
+                "title='" + title + '\'' +
+                ", director='" + director + '\'' +
+                ", type=" + type +
+                ", duration='" + duration + '\'' +
+                ", rating=" + rating +
+                ", description='" + description + '\'' +
+                ", exitDate=" + exitDate +
+                ", trailer='" + trailer + '\'' +
+                ", cover='" + cover + '\'' +
+                ", filmState=" + filmState +
+                '}';
     }
 }

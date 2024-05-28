@@ -16,7 +16,7 @@ import java.util.List;
 @ToString
 public class Show {
 
-    // ATTRIBUTI
+    // ATTRIBUTES
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter (AccessLevel.NONE)
@@ -37,6 +37,7 @@ public class Show {
     @JsonIgnore
     private List<Ticket> ticket;
 
+    // CONSTRUCTOR
     public Show(LocalDate showDate, List<LocalTime> showTime, Film film, CinemaRoom cinemaRoom, List<Ticket> ticket) {
         this.showDate = showDate;
         this.showTime = showTime;
@@ -44,6 +45,7 @@ public class Show {
         this.cinemaRoom = cinemaRoom;
         this.ticket = ticket;
     }
+
     public Show(LocalDate showDate, List<LocalTime> showTime, Film film, CinemaRoom cinemaRoom) {
         this.showDate = showDate;
         this.showTime = showTime;

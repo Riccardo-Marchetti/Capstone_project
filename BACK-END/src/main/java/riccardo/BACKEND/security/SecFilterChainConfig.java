@@ -17,15 +17,15 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecFilterChainConfig {
     @Bean
     SecurityFilterChain securityFilterChain (HttpSecurity httpSecurity) throws Exception {
-        // DISABILITO COMPORTAMENTI DI DEFAULT
-        // DISABILITO IL FORM DI LOGIN
+        // DISABLE DEFAULT BEHAVIORS
+        // DISABLE LOGIN FORM
         httpSecurity.formLogin(http -> http.disable());
-        // DISABILITO LA PROTEZIONE DA CSRF
+        // DISABLE CSRF PROTECTION
         httpSecurity.csrf(http -> http.disable());
-        // TOLGO LE SESSIONI
+        // REMOVE SESSIONS
         httpSecurity.sessionManagement(http -> http.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         httpSecurity.cors(Customizer.withDefaults());
-        // CONSENTO A TUTTE LE RICHIESTE DI PASSARE ATTRAVERSO LA FILTER CHAIN, TUTTE LE RISORSE SONO ACCESSIBILI A TUTTI GLI UTENTI CON AUTENTICAZIONE O MENO
+        // ALLOW ALL REQUESTS TO PASS THROUGH THE FILTER CHAIN, ALL RESOURCES ARE ACCESSIBLE TO ALL USERS WITH OR WITHOUT AUTHENTICATION
         httpSecurity.authorizeHttpRequests(http -> http.requestMatchers("/**").permitAll());
 
         return httpSecurity.build();
@@ -33,6 +33,7 @@ public class SecFilterChainConfig {
 
     @Bean
     PasswordEncoder passwordEncoder (){
+        // Returns a BCryptPasswordEncoder with a strength of 11
         return new BCryptPasswordEncoder(11);
     }
 }

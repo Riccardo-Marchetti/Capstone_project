@@ -12,8 +12,10 @@ import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice
+// This class handles exceptions and returns appropriate responses
 public class ExceptionsHandler {
 
+    // This method handles BadRequestException
     @ExceptionHandler
     @ResponseStatus (HttpStatus.BAD_REQUEST)
     public ErrorsDTO handleBadRequest (BadRequestException ex){
@@ -24,22 +26,28 @@ public class ExceptionsHandler {
         return new ErrorsDTO(ex.getMessage(), LocalDateTime.now());
     }
 
+    // This method handles NotFoundException
     @ExceptionHandler
     @ResponseStatus (HttpStatus.NOT_FOUND)
     public ErrorsDTO handleNotFoundException (NotFoundException ex){
         return new ErrorsDTO(ex.getMessage(), LocalDateTime.now());
     }
 
+    // This method handles general exceptions
     @ExceptionHandler
     @ResponseStatus (HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorsDTO handleException (Exception ex){
         return new ErrorsDTO("Server related problem, we will resolve as soon as possible", LocalDateTime.now());
     }
+
+    // This method handles UnauthorizedException
     @ExceptionHandler
     @ResponseStatus (HttpStatus.UNAUTHORIZED)
     public ErrorsDTO handleException (UnauthorizedException ex){
         return new ErrorsDTO(ex.getMessage(), LocalDateTime.now());
     }
+
+    // This method handles AccessDeniedException
     @ExceptionHandler
     @ResponseStatus (HttpStatus.FORBIDDEN)
     public ErrorsDTO handleException (AccessDeniedException ex){
